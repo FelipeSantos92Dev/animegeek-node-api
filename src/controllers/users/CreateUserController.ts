@@ -15,7 +15,7 @@ export class CreateUserController {
     })
 
     if (userAlreadyExists) {
-      response.status(200).json({ message: 'Usuário já existente!' })
+      response.status(403).json({ message: 'Usuário já existente!' })
     } else {
       try {
         await prismaClient.user.create({
@@ -26,7 +26,7 @@ export class CreateUserController {
         })
         response.status(201).json({ message: `Usuário(a) cadastrado(a)!` })
       } catch (error) {
-        response.status(200).json({ message: error.message })
+        response.status(400).json({ message: error.message })
       }
     }
   }
