@@ -1,9 +1,10 @@
 import { Router } from 'express'
+import { CreateCategoryController } from '../controllers/category/CreateCategoryController'
 
 const categoriesRoutes = Router()
 
-categoriesRoutes.post('/categories', (request, response) => {
-  const { name, description } = request.body
-})
+const createCategory = new CreateCategoryController()
+
+categoriesRoutes.post('/', createCategory.handle)
 
 export { categoriesRoutes }
