@@ -4,11 +4,6 @@ import { compare } from 'bcryptjs'
 import { sign } from 'jsonwebtoken'
 import authConfig from '../../config/auth'
 
-// interface RequestData {
-//   email: string
-//   password: string
-// }
-
 interface ResponseData {
   user: {
     email: string
@@ -26,14 +21,14 @@ export default class AuthenticateUserController {
     })
 
     if (!user) {
-      // throw new Error('Email ou senha inválido!')
-      response.status(403).json({ message: 'Email ou senha inválido!' })
+      return response.status(403).json({ message: 'Email ou senha inválido!' })
     } else {
       const passwordMatch = await compare(password, user.password)
 
       if (!passwordMatch) {
-        // throw new Error('Email ou senha inválido!')
-        response.status(403).json({ message: 'Email ou senha inválido!' })
+        return response
+          .status(403)
+          .json({ message: 'Email ou senha inválido!' })
       }
 
       const { secret, expiresIn } = authConfig.jwt
@@ -49,7 +44,7 @@ export default class AuthenticateUserController {
         }
       }
 
-      return tokenReturn
+      response.status(200).json({ tokenReturn })
     }
   }
 }

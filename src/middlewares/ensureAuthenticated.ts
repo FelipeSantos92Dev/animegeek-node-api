@@ -16,7 +16,6 @@ export default class ensureAuthenticated {
     const authHeader = request.headers.authorization
 
     if (!authHeader) {
-      // throw new Error('Token inexistente!')
       response.status(403).json({ message: 'Token inexistente!' })
     } else {
       const [, token] = authHeader.split(' ')
@@ -34,13 +33,11 @@ export default class ensureAuthenticated {
         })
 
         if (!user) {
-          // throw new Error('Usuário inexistente!')
           response.status(404).json({ message: 'Usuário inexistente!' })
         }
 
         next()
       } catch {
-        // throw new Error('Token inválido!')
         response.status(401).json({ message: 'Token inválido!' })
       }
     }
