@@ -1,6 +1,6 @@
 import { Router } from 'express'
-import CreateCategoryController from '../controllers/category/CreateCategoryController'
-import ListAllCategoriesController from '../controllers/category/ListAllCategoriesController'
+import CreateCategoryController from '../controllers/categories/CreateCategoryController'
+import ListAllCategoriesController from '../controllers/categories/ListAllCategoriesController'
 import ensureAuthenticated from '../middlewares/ensureAuthenticated'
 
 const categoriesRouter = Router()
