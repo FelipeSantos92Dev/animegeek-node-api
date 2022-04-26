@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
-import { hash } from 'bcryptjs'
 import { prismaClient } from '../../database/prismaClient'
+import { hash } from 'bcryptjs'
 
 export class CreateUserController {
   async handle(request: Request, response: Response) {
@@ -24,7 +24,7 @@ export class CreateUserController {
             password: encryptedPassword
           }
         })
-        response.status(201).json({ message: `Usuário(a) cadastrado(a)!` })
+        response.status(201).json({ message: 'Usuário(a) cadastrado(a)!' })
       } catch (error) {
         response.status(400).json({ message: error.message })
       }
