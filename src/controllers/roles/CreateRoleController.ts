@@ -1,7 +1,7 @@
 import { Request, Response } from 'express'
 import { prismaClient } from '../../database/prismaClient'
 
-export default class CreateRoleCategories {
+export default class CreateRoleController {
   async handle(request: Request, response: Response) {
     const { name, description } = request.body
 
