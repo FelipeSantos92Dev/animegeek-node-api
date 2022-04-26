@@ -10,16 +10,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Category {
-  id          String   @id @default(uuid())
-  name        String   @unique
-  description String
-  created_at  DateTime @default(now())
-  updated_at  DateTime @updatedAt
-
-  @@map("categories")
-}
-
 model User {
   id         String   @id @default(uuid())
   email      String   @unique
@@ -29,4 +19,24 @@ model User {
   updated_at DateTime @updatedAt
 
   @@map("users")
+}
+
+model Role {
+  id          String   @id @default(uuid())
+  name        String   @unique
+  description String
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
+
+  @@map("roles")
+}
+
+model Category {
+  id          String   @id @default(uuid())
+  name        String   @unique
+  description String
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
+
+  @@map("categories")
 }
