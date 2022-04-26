@@ -2,6 +2,7 @@ import { Request, Response } from 'express'
 import { prismaClient } from '../../database/prismaClient'
 import { compare } from 'bcryptjs'
 import { sign } from 'jsonwebtoken'
+import authConfig from '../../config/auth'
 
 // interface RequestData {
 //   email: string
@@ -35,9 +36,11 @@ export class AuthenticateUserController {
           .json({ message: 'Email ou senha inválido!' })
       }
 
-      const token = sign({}, '2a60281155c038123d02e5cfc8cb338c', {
+      const { secret, expiresIn } = authConfig.jwt
+
+      const token = sign({}, secret, {
         subject: user.id,
-        expiresIn: '1d'
+        expiresIn
       })
       const tokenReturn: ResponseData = {
         token,

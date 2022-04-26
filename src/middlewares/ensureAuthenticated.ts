@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from 'express'
 import { verify } from 'jsonwebtoken'
 import { prismaClient } from '../database/prismaClient'
+import authConfig from '../config/auth'
 
 interface PayloadData {
   sub: string
@@ -18,7 +19,7 @@ export class ensureAuthenticated {
       try {
         const { sub: user_id } = verify(
           token,
-          '2a60281155c038123d02e5cfc8cb338c'
+          authConfig.jwt.secret
         ) as PayloadData
 
         const user = await prismaClient.user.findFirst({
