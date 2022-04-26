@@ -1,7 +1,7 @@
 import { Request, Response } from 'express'
 import { prismaClient } from '../../database/prismaClient'
 
-export class CreateCategoryController {
+export default class CreateCategoryController {
   async handle(request: Request, response: Response) {
     const { name, description } = request.body
 
@@ -12,7 +12,6 @@ export class CreateCategoryController {
     })
 
     if (categoryAlreadyExists) {
-      // return response.status(403).json({ message: 'Categoria já existente!' })
       throw new Error('Categoria já existente!')
     } else {
       try {
@@ -26,7 +25,6 @@ export class CreateCategoryController {
           .status(201)
           .json({ message: `Categoria ${category.name} criada!` })
       } catch (error) {
-        // return response.status(200).json({ message: error.message })
         throw new Error(error.message)
       }
     }

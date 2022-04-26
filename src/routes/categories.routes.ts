@@ -1,13 +1,16 @@
 import { Router } from 'express'
-import { CreateCategoryController } from '../controllers/category/CreateCategoryController'
-import { ensureAuthenticated } from '../middlewares/ensureAuthenticated'
+import CreateCategoryController from '../controllers/category/CreateCategoryController'
+import ListAllCategoriesController from '../controllers/category/ListAllCategoriesController'
+// import { ensureAuthenticated } from '../middlewares/ensureAuthenticated'
 
-const categoriesRoutes = Router()
+const categoriesRouter = Router()
 
-categoriesRoutes.use(new ensureAuthenticated().handle)
+// categoriesRouter.use(new ensureAuthenticated().handle)
 
 const createCategory = new CreateCategoryController()
+const listCategories = new ListAllCategoriesController()
 
-categoriesRoutes.post('/', createCategory.handle)
+categoriesRouter.post('/', createCategory.handle)
+categoriesRouter.get('/', listCategories.handle)
 
-export { categoriesRoutes }
+export { categoriesRouter }
