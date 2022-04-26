@@ -12,21 +12,16 @@ export default class CreateCategoryController {
     })
 
     if (categoryAlreadyExists) {
-      throw new Error('Categoria já existente!')
+      // throw new Error('Categoria já existente!')
+      response.status(401).json({ message: 'Categoria já existente!' })
     } else {
-      try {
-        const category = await prismaClient.category.create({
-          data: {
-            name,
-            description
-          }
-        })
-        response
-          .status(201)
-          .json({ message: `Categoria ${category.name} criada!` })
-      } catch (error) {
-        throw new Error(error.message)
-      }
+      await prismaClient.category.create({
+        data: {
+          name,
+          description
+        }
+      })
+      response.status(201).json({ message: 'Categoria criada!' })
     }
   }
 }

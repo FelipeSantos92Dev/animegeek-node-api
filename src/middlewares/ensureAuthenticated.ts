@@ -7,12 +7,17 @@ interface PayloadData {
   sub: string
 }
 
-export class ensureAuthenticated {
-  async handle(request: Request, response: Response, next: NextFunction) {
+export default class ensureAuthenticated {
+  async handle(
+    request: Request,
+    response: Response,
+    next: NextFunction
+  ): Promise<void> {
     const authHeader = request.headers.authorization
 
     if (!authHeader) {
-      return response.status(403).json({ message: 'Token inexistente!' })
+      // throw new Error('Token inexistente!')
+      response.status(403).json({ message: 'Token inexistente!' })
     } else {
       const [, token] = authHeader.split(' ')
 
@@ -29,15 +34,15 @@ export class ensureAuthenticated {
         })
 
         if (!user) {
-          return response.status(400).json({ message: 'Usuário inexistente!' })
+          // throw new Error('Usuário inexistente!')
+          response.status(404).json({ message: 'Usuário inexistente!' })
         }
 
         next()
       } catch {
-        return response.status(403).json({ message: 'Token inválido!' })
+        // throw new Error('Token inválido!')
+        response.status(401).json({ message: 'Token inválido!' })
       }
     }
-
-    return response.json()
   }
 }
