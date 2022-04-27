@@ -22,6 +22,17 @@ export default class CreateUserController {
           data: {
             email,
             password: encryptedPassword,
+            role: {
+              connectOrCreate: {
+                where: {
+                  name: 'Geek'
+                },
+                create: {
+                  name: 'Geek',
+                  description: 'Usuário padrão'
+                }
+              }
+            },
             profile: {
               create: {}
             }

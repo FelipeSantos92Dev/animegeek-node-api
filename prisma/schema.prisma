@@ -15,11 +15,12 @@ model User {
   email      String   @unique
   password   String
   profileId  String   @unique
-  role       String   @default("geek")
+  roleName   String?  @default("Geek")
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 
   profile Profile @relation(fields: [profileId], references: [id])
+  role    Role?   @relation(fields: [roleName], references: [name])
   @@map("users")
 }
 
@@ -42,6 +43,8 @@ model Role {
   description String
   created_at  DateTime @default(now())
   updated_at  DateTime @updatedAt
+
+  users User[]
 
   @@map("roles")
 }
