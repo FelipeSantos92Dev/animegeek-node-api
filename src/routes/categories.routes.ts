@@ -7,12 +7,12 @@ import ensureAccessByRole from '../middlewares/ensureAccessByRole'
 const categoriesRouter = Router()
 
 categoriesRouter.use(new ensureAuthenticated().handle)
-categoriesRouter.use(new ensureAccessByRole().handle)
+const adminRole = new ensureAccessByRole().handle
 
-const createCategory = new CreateCategoryController()
-const listCategories = new ListAllCategoriesController()
+const createCategory = new CreateCategoryController().handle
+const listCategories = new ListAllCategoriesController().handle
 
-categoriesRouter.post('/', createCategory.handle)
-categoriesRouter.get('/', listCategories.handle)
+categoriesRouter.post('/', adminRole, createCategory)
+categoriesRouter.get('/', listCategories)
 
 export { categoriesRouter }

@@ -3,8 +3,8 @@ import AuthenticateUserController from '../controllers/auth/AuthenticateUserCont
 
 const authenticateRouter = Router()
 
-const authUser = new AuthenticateUserController()
+const authUser = new AuthenticateUserController().handle
 
-authenticateRouter.post('/auth', authUser.handle)
+authenticateRouter.post('/auth', authUser)
 
 export { authenticateRouter }

@@ -6,12 +6,12 @@ import ensureAccessByRole from '../middlewares/ensureAccessByRole'
 
 const usersRouter = Router()
 
-const createUser = new CreateUserController()
-const listUsers = new ListAllUsersController()
-const protectedRoutes = new ensureAuthenticated()
-const adminRole = new ensureAccessByRole()
+const createUser = new CreateUserController().handle
+const listUsers = new ListAllUsersController().handle
+const protectedRoutes = new ensureAuthenticated().handle
+const adminRole = new ensureAccessByRole().handle
 
-usersRouter.post('/', createUser.handle)
-usersRouter.get('/', protectedRoutes.handle, adminRole.handle, listUsers.handle)
+usersRouter.post('/', createUser)
+usersRouter.get('/', protectedRoutes, adminRole, listUsers)
 
 export { usersRouter }
