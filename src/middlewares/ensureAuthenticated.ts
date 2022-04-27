@@ -34,9 +34,13 @@ export default class ensureAuthenticated {
 
         if (!user) {
           response.status(404).json({ message: 'Usuário inexistente!' })
-        }
+        } else {
+          request.user = {
+            id: user_id
+          }
 
-        next()
+          next()
+        }
       } catch {
         response.status(401).json({ message: 'Token inválido!' })
       }
