@@ -18,7 +18,22 @@ model User {
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 
+  profile Profile?
   @@map("users")
+}
+
+model Profile {
+  id         String   @id @default(uuid())
+  userId     String   @unique
+  name       String
+  cellphone  String
+  avatar     String
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@map("profiles")
 }
 
 model Role {
