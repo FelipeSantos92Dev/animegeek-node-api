@@ -1,0 +1,4 @@
+-- AlterTable
+ALTER TABLE `profiles` MODIFY `name` VARCHAR(191) NULL DEFAULT '',
+    MODIFY `cellphone` VARCHAR(191) NULL DEFAULT '',
+    MODIFY `avatar` VARCHAR(191) NULL DEFAULT '';

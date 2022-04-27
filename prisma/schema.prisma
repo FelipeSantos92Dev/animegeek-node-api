@@ -14,24 +14,24 @@ model User {
   id         String   @id @default(uuid())
   email      String   @unique
   password   String
+  profileId  String   @unique
   role       String   @default("geek")
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 
-  profile Profile?
+  profile Profile @relation(fields: [profileId], references: [id])
   @@map("users")
 }
 
 model Profile {
   id         String   @id @default(uuid())
-  userId     String   @unique
-  name       String
-  cellphone  String
-  avatar     String
+  name       String?  @default("")
+  cellphone  String?  @default("")
+  avatar     String?  @default("")
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 
-  user User @relation(fields: [userId], references: [id])
+  user User?
 
   @@map("profiles")
 }

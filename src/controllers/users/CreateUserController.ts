@@ -21,7 +21,10 @@ export default class CreateUserController {
         await prismaClient.user.create({
           data: {
             email,
-            password: encryptedPassword
+            password: encryptedPassword,
+            profile: {
+              create: {}
+            }
           }
         })
         response.status(201).json({ message: 'Usuário(a) cadastrado(a)!' })
