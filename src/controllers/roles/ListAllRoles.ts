@@ -9,6 +9,8 @@ export default class ListAllRoles {
       }
     })
 
-    return response.json(roles)
+    const rolesNumber = roles.length
+
+    return response.json({ rolesNumber, roles })
   }
 }

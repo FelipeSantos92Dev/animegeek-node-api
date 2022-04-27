@@ -7,6 +7,8 @@ export default class ListAllCategoriesController {
       orderBy: { updated_at: 'desc' }
     })
 
-    return response.json(categories)
+    const categoriesNumber = categories.length
+
+    return response.json({ categoriesNumber, categories })
   }
 }

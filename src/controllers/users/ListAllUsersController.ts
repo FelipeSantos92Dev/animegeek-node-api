@@ -28,6 +28,8 @@ export default class ListAllUsersController {
       }
     })
 
-    return response.json(users)
+    const usersNumber = users.length
+
+    return response.json({ usersNumber, users })
   }
 }
