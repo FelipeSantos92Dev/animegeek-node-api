@@ -1,6 +1,6 @@
 export default {
   jwt: {
-    secret: '2a60281155c038123d02e5cfc8cb338c',
-    expiresIn: '1d'
+    secret: 'animegeeksecretcode.token',
+    expiresIn: 60 * 5 // 5min
   }
 }

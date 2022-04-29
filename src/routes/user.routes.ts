@@ -1,22 +1,19 @@
 import { Router } from 'express'
-import CreateUserController from '../controllers/users/CreateUserController'
-import ListAllUsersController from '../controllers/users/ListAllUsersController'
+import GetUserController from '../controllers/users/GetUserController'
 import UpdateUserController from '../controllers/users/UpdateUserController'
 import ensureAuthenticated from '../middlewares/ensureAuthenticated'
 // import ensureAccessByRole from '../middlewares/ensureAccessByRole'
 
-const usersRouter = Router()
+const userRouter = Router()
 
-const createUser = new CreateUserController().handle
-const listUsers = new ListAllUsersController().handle
+const getUser = new GetUserController().handle
 const updateUser = new UpdateUserController().handle
 
 const protectedRoutes = new ensureAuthenticated().handle
 // const adminRole = new ensureAccessByRole().handle
 
-usersRouter.post('/', createUser)
-usersRouter.put('/', protectedRoutes, updateUser)
-usersRouter.get('/', protectedRoutes, listUsers)
+userRouter.get('/', protectedRoutes, getUser)
+userRouter.put('/', protectedRoutes, updateUser)
 // usersRouter.get('/', protectedRoutes, adminRole, listUsers)
 
-export { usersRouter }
+export { userRouter }
