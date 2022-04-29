@@ -7,6 +7,8 @@ import authConfig from '../../config/auth'
 interface ResponseData {
   user: {
     email: string
+    name?: string | null
+    role?: string | null
   }
   token: string
 }
@@ -17,6 +19,17 @@ export default class AuthenticateUserController {
     const user = await prismaClient.user.findFirst({
       where: {
         email
+      },
+      select: {
+        id: true,
+        email: true,
+        password: true,
+        roleName: true,
+        profile: {
+          select: {
+            name: true
+          }
+        }
       }
     })
 
@@ -40,7 +53,9 @@ export default class AuthenticateUserController {
       const tokenReturn: ResponseData = {
         token,
         user: {
-          email
+          email,
+          name: user.profile.name,
+          role: user.roleName
         }
       }
 
