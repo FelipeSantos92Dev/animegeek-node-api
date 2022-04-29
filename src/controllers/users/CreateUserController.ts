@@ -4,13 +4,13 @@ import { hash } from 'bcryptjs'
 
 export default class CreateUserController {
   async handle(request: Request, response: Response) {
-    const { email, password } = request.body
+    const { user } = request.body
 
-    const encryptedPassword = await hash(password, 8)
+    const encryptedPassword = await hash(user.password, 8)
 
     const userAlreadyExists = await prismaClient.user.findFirst({
       where: {
-        email
+        email: user.email
       }
     })
 
@@ -20,7 +20,7 @@ export default class CreateUserController {
       try {
         await prismaClient.user.create({
           data: {
-            email,
+            email: user.email,
             password: encryptedPassword,
             role: {
               connectOrCreate: {
@@ -34,7 +34,9 @@ export default class CreateUserController {
               }
             },
             profile: {
-              create: {}
+              create: {
+                name: user.name
+              }
             }
           }
         })
