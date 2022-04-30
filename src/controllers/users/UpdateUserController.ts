@@ -1,6 +1,7 @@
 import { hash } from 'bcryptjs'
 import { Request, Response } from 'express'
 import { prismaClient } from '../../database/prismaClient'
+import AppError from '../../errors/AppError'
 
 export default class UpdateUserController {
   async handle(request: Request, response: Response) {
@@ -9,9 +10,7 @@ export default class UpdateUserController {
     const encryptedPassword = await hash(password, 8)
 
     if (email === '' || password === '') {
-      response
-        .status(403)
-        .json({ message: 'Campos obrigatórios não preenchidos!' })
+      throw new AppError('Campos obrigatórios não preenchidos!', 403)
     } else {
       const { id } = request.user
 

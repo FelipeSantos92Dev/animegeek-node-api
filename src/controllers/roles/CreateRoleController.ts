@@ -1,5 +1,6 @@
 import { Request, Response } from 'express'
 import { prismaClient } from '../../database/prismaClient'
+import AppError from '../../errors/AppError'
 
 export default class CreateRoleController {
   async handle(request: Request, response: Response) {
@@ -12,7 +13,7 @@ export default class CreateRoleController {
     })
 
     if (roleAlreadyExists) {
-      response.status(403).json({ message: 'Cargo já existente!' })
+      throw new AppError('Cargo já existente!', 403)
     } else {
       await prismaClient.role.create({
         data: {

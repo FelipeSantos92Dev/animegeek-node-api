@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from 'express'
 import { verify } from 'jsonwebtoken'
 import { prismaClient } from '../database/prismaClient'
 import authConfig from '../config/auth'
+import AppError from '../errors/AppError'
 
 interface PayloadData {
   sub: string
@@ -16,7 +17,7 @@ export default class ensureAuthenticated {
     const authHeader = request.headers.authorization
 
     if (!authHeader) {
-      response.status(403).json({ message: 'Token inexistente!' })
+      throw new AppError('Token inexistente!', 403)
     } else {
       const [, token] = authHeader.split(' ')
 
@@ -33,7 +34,7 @@ export default class ensureAuthenticated {
         })
 
         if (!user) {
-          response.status(404).json({ message: 'Usuário inexistente!' })
+          throw new AppError('Usuário inexistente!', 404)
         } else {
           request.user = {
             id: user_id
@@ -42,7 +43,7 @@ export default class ensureAuthenticated {
           next()
         }
       } catch {
-        response.status(401).json({ message: 'Token inválido!' })
+        throw new AppError('Token expirado!', 401)
       }
     }
   }

@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express'
 import { prismaClient } from '../database/prismaClient'
+import AppError from '../errors/AppError'
 
 export default class ensureAccessByRole {
   async handle(request: Request, response: Response, next: NextFunction) {
@@ -12,9 +13,7 @@ export default class ensureAccessByRole {
     })
 
     if (user?.roleName !== 'Administrador') {
-      response
-        .status(401)
-        .json({ message: 'Usuário sem permissões de acesso!' })
+      throw new AppError('Usuário sem permissões de acesso!', 401)
     } else {
       next()
     }

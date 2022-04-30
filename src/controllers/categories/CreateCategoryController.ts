@@ -1,5 +1,6 @@
 import { Request, Response } from 'express'
 import { prismaClient } from '../../database/prismaClient'
+import AppError from '../../errors/AppError'
 
 export default class CreateCategoryController {
   async handle(request: Request, response: Response) {
@@ -12,7 +13,7 @@ export default class CreateCategoryController {
     })
 
     if (categoryAlreadyExists) {
-      response.status(401).json({ message: 'Categoria já existente!' })
+      throw new AppError('Categoria já existente!', 401)
     } else {
       await prismaClient.category.create({
         data: {
