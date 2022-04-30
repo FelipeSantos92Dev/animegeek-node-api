@@ -17,7 +17,7 @@ export default class ensureAuthenticated {
     const authHeader = request.headers.authorization
 
     if (!authHeader) {
-      throw new AppError('Token inexistente!', 403)
+      throw new AppError('Token inexistente!', 404)
     } else {
       const [, token] = authHeader.split(' ')
 

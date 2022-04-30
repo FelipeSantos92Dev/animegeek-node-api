@@ -1,75 +1,17 @@
 import { Request, Response } from 'express'
-import { prismaClient } from '../../database/prismaClient'
-import { compare } from 'bcryptjs'
-import { sign } from 'jsonwebtoken'
-import authConfig from '../../config/auth'
-import AppError from '../../errors/AppError'
-import RefreshTokenController from './RefreshTokenController'
-
-interface ResponseData {
-  user: {
-    email: string
-    name?: string | null
-    role?: string | null
-  }
-  token: string
-}
+import AuthenticateUserUseCase from './AuthenticateUserUseCase'
 
 export default class AuthenticateUserController {
   async handle(request: Request, response: Response) {
     const { email, password } = request.body
-    const user = await prismaClient.user.findFirst({
-      where: {
-        email
-      },
-      select: {
-        id: true,
-        email: true,
-        password: true,
-        roleName: true,
-        profile: {
-          select: {
-            name: true
-          }
-        }
-      }
+
+    const authenticate = new AuthenticateUserUseCase()
+
+    const token = await authenticate.execute({
+      email,
+      password
     })
 
-    if (!user) {
-      throw new AppError('Email ou senha inválido!', 403)
-    } else {
-      const passwordMatch = await compare(password, user.password)
-
-      if (!passwordMatch) {
-        throw new AppError('Email ou senha inválido!', 403)
-      }
-
-      const { secret, expiresIn } = authConfig.jwt
-
-      const tokenUser = {
-        email: user.email,
-        name: user.profile.name,
-        role: user.roleName
-      }
-
-      const token = sign({ tokenUser }, secret, {
-        subject: user.id,
-        expiresIn
-      })
-
-      const refresfhTokenData = new RefreshTokenController()
-      const refreshToken = await refresfhTokenData.handle(user.id)
-
-      const tokenReturn: ResponseData = {
-        token,
-        user: {
-          email,
-          name: user.profile.name,
-          role: user.roleName
-        }
-      }
-
-      response.status(200).json({ tokenReturn, refreshToken })
-    }
+    return response.status(201).json(token)
   }
 }

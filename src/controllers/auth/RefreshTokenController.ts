@@ -1,17 +1,14 @@
-import { prismaClient } from '../../database/prismaClient'
-import dayjs from 'dayjs'
+import { Request, Response } from 'express'
+import RefreshTokenUseCase from './RefreshTokenUseCase'
 
 export default class RefreshTokenController {
-  async handle(userId: string) {
-    const expiresIn = dayjs().add(15, 'second').unix()
+  async handle(request: Request, response: Response) {
+    const { refreshToken } = request.body
 
-    const refresfhToken = await prismaClient.refreshToken.create({
-      data: {
-        userId,
-        expiresIn
-      }
-    })
+    const refreshTokenUseCase = new RefreshTokenUseCase()
 
-    return refresfhToken
+    const token = await refreshTokenUseCase.execute(refreshToken)
+
+    return response.status(201).json(token)
   }
 }
