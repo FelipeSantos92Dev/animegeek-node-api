@@ -3,6 +3,7 @@ import { prismaClient } from '../../database/prismaClient'
 import { compare } from 'bcryptjs'
 import { sign } from 'jsonwebtoken'
 import authConfig from '../../config/auth'
+import AppError from '../../errors/AppError'
 
 interface ResponseData {
   user: {
@@ -34,19 +35,23 @@ export default class AuthenticateUserController {
     })
 
     if (!user) {
-      return response.status(403).json({ message: 'Email ou senha inválido!' })
+      throw new AppError('Email ou senha inválido!', 403)
     } else {
       const passwordMatch = await compare(password, user.password)
 
       if (!passwordMatch) {
-        return response
-          .status(403)
-          .json({ message: 'Email ou senha inválido!' })
+        throw new AppError('Email ou senha inválido!', 403)
       }
 
       const { secret, expiresIn } = authConfig.jwt
 
-      const token = sign({}, secret, {
+      const tokenUser = {
+        email: user.email,
+        name: user.profile.name,
+        role: user.roleName
+      }
+
+      const token = sign({ tokenUser }, secret, {
         subject: user.id,
         expiresIn
       })

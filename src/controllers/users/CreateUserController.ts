@@ -1,6 +1,7 @@
 import { Request, Response } from 'express'
 import { prismaClient } from '../../database/prismaClient'
 import { hash } from 'bcryptjs'
+import AppError from '../../errors/AppError'
 
 export default class CreateUserController {
   async handle(request: Request, response: Response) {
@@ -15,7 +16,7 @@ export default class CreateUserController {
     })
 
     if (userAlreadyExists) {
-      response.status(403).json({ message: 'Usuário já existente!' })
+      throw new AppError('Usuário já existente!', 403)
     } else {
       try {
         await prismaClient.user.create({
@@ -42,7 +43,7 @@ export default class CreateUserController {
         })
         response.status(201).json({ message: 'Usuário(a) cadastrado(a)!' })
       } catch (error) {
-        response.status(400).json({ message: error.message })
+        throw new AppError(error.message, 400)
       }
     }
   }
