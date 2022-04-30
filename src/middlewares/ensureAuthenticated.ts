@@ -43,7 +43,7 @@ export default class ensureAuthenticated {
           next()
         }
       } catch {
-        throw new AppError('Token inválido!', 401)
+        throw new AppError('invalid.token', 401)
       }
     }
   }

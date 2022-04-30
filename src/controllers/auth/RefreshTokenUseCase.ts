@@ -22,7 +22,7 @@ export default class RefreshTokenUseCase {
     })
 
     if (!oldToken) {
-      throw new AppError('Token inválido!', 401)
+      throw new AppError('invalid.token', 401)
     } else {
       const user = await prismaClient.user.findFirst({
         where: {
