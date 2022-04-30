@@ -4,6 +4,7 @@ import { compare } from 'bcryptjs'
 import { sign } from 'jsonwebtoken'
 import authConfig from '../../config/auth'
 import AppError from '../../errors/AppError'
+import RefreshTokenController from './RefreshTokenController'
 
 interface ResponseData {
   user: {
@@ -55,6 +56,10 @@ export default class AuthenticateUserController {
         subject: user.id,
         expiresIn
       })
+
+      const refresfhTokenData = new RefreshTokenController()
+      const refreshToken = await refresfhTokenData.handle(user.id)
+
       const tokenReturn: ResponseData = {
         token,
         user: {
@@ -64,7 +69,7 @@ export default class AuthenticateUserController {
         }
       }
 
-      response.status(200).json({ tokenReturn })
+      response.status(200).json({ tokenReturn, refreshToken })
     }
   }
 }

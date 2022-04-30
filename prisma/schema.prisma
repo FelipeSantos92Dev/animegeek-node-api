@@ -19,9 +19,19 @@ model User {
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 
-  profile Profile @relation(fields: [profileId], references: [id])
-  role    Role?   @relation(fields: [roleName], references: [name])
+  profile       Profile       @relation(fields: [profileId], references: [id])
+  role          Role?         @relation(fields: [roleName], references: [name])
+  refresh_token RefreshToken?
   @@map("users")
+}
+
+model RefreshToken {
+  id        String @id @default(uuid())
+  expiresIn Int
+  userId    String @unique
+  user      User   @relation(fields: [userId], references: [id])
+
+  @@map("refresh_token")
 }
 
 model Profile {
