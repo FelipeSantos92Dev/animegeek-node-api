@@ -34,7 +34,7 @@ export default class RefreshTokenUseCase {
       })
 
       if (!user) {
-        throw new AppError('Email ou senha inválido!', 403)
+        throw new AppError('Credenciais inválidas!', 401)
       } else {
         const generateToken = new GenerateToken()
         const token = await generateToken.execute(oldToken.userId)
@@ -60,11 +60,11 @@ export default class RefreshTokenUseCase {
           })
 
           const generateRefreshToken = new GenerateRefreshToken()
-          const newRefreshToken = await generateRefreshToken.execute(
+          const refreshToken = await generateRefreshToken.execute(
             oldToken.userId
           )
 
-          return { tokenReturn, newRefreshToken }
+          return { tokenReturn, refreshToken }
         }
 
         return { tokenReturn }
