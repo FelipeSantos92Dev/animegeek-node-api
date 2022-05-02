@@ -21,7 +21,9 @@ async function main() {
         }
       },
       profile: {
-        create: {}
+        create: {
+          name: 'Administrador'
+        }
       }
     }
   })
