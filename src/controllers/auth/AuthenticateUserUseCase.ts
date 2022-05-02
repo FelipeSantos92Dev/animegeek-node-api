@@ -9,15 +9,6 @@ interface RequestData {
   password: string
 }
 
-interface ResponseData {
-  user: {
-    email: string
-    name?: string | null
-    role?: string | null
-  }
-  token: string
-}
-
 export default class AuthenticateUserUseCase {
   async execute({ email, password }: RequestData) {
     const user = await prismaClient.user.findFirst({
@@ -54,19 +45,13 @@ export default class AuthenticateUserUseCase {
       const generateToken = new GenerateToken()
       const token = await generateToken.execute(user.id)
 
-      const tokenReturn: ResponseData = {
-        token,
-        user: {
-          email,
-          name: user.profile.name,
-          role: user.roleName
-        }
-      }
-
       const generateRefreshToken = new GenerateRefreshToken()
       const refreshToken = await generateRefreshToken.execute(user.id)
 
-      return { tokenReturn, refreshToken }
+      const name = user.profile.name
+      const role = user.roleName
+
+      return { token, refreshToken, email, name, role }
     }
   }
 }

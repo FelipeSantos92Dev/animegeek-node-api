@@ -11,6 +11,6 @@ export default class GenerateRefreshToken {
       }
     })
 
-    return generateRefreshToken
+    return generateRefreshToken.id
   }
 }

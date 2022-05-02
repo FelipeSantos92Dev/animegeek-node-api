@@ -4,15 +4,6 @@ import AppError from '../../errors/AppError'
 import GenerateToken from './GenerateToken'
 import GenerateRefreshToken from './GenerateRefreshToken'
 
-interface ResponseData {
-  user: {
-    email: string
-    name?: string | null
-    role?: string | null
-  }
-  token: string
-}
-
 export default class RefreshTokenUseCase {
   async execute(refreshToken: string) {
     const oldToken = await prismaClient.refreshToken.findFirst({
@@ -28,7 +19,9 @@ export default class RefreshTokenUseCase {
         where: {
           id: oldToken.userId
         },
-        include: {
+        select: {
+          email: true,
+          roleName: true,
           profile: true
         }
       })
@@ -39,14 +32,9 @@ export default class RefreshTokenUseCase {
         const generateToken = new GenerateToken()
         const token = await generateToken.execute(oldToken.userId)
 
-        const tokenReturn: ResponseData = {
-          token,
-          user: {
-            email: user.email,
-            name: user.profile.name,
-            role: user.roleName
-          }
-        }
+        const email = user.email
+        const name = user.profile.name
+        const role = user.roleName
 
         const refreshTokenExpired = dayjs().isAfter(
           dayjs.unix(oldToken.expiresIn)
@@ -64,10 +52,14 @@ export default class RefreshTokenUseCase {
             oldToken.userId
           )
 
-          return { tokenReturn, refreshToken }
+          const email = user.email
+          const name = user.profile.name
+          const role = user.roleName
+
+          return { token, refreshToken, email, name, role }
         }
 
-        return { tokenReturn }
+        return { token, refreshToken, email, name, role }
       }
     }
   }
