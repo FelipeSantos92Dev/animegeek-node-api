@@ -7,8 +7,8 @@ import AppError from './errors/AppError'
 const app = express()
 const corsOptions = {
   origin: '*',
-  optionsSuccessStatus: 200,
-  preflightContinue: false
+  methods: ['GET', 'POST', 'PATCH', 'PUT', 'DELETE', 'OPTIONS'],
+  optionsSuccessStatus: 200
 }
 app.use(express.json())
 app.use(cors(corsOptions))
