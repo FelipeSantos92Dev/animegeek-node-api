@@ -8,7 +8,7 @@ const app = express()
 const corsOptions = {
   origin: '*',
   optionsSuccessStatus: 200,
-  preflightContinue: true
+  preflightContinue: false
 }
 app.use(express.json())
 app.use(cors(corsOptions))
