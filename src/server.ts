@@ -5,24 +5,11 @@ import cors from 'cors'
 import AppError from './errors/AppError'
 
 const app = express()
-const corsOptions = {
-  origin: '*',
-  methods: ['GET', 'POST', 'PATCH', 'PUT', 'DELETE', 'OPTIONS'],
-  optionsSuccessStatus: 200
-}
+
 app.use(express.json())
-app.use((request: Request, response: Response, next: NextFunction) => {
-  response.header(
-    'Access-Control-Allow-Origin',
-    'https://dashboard-ignite.vercel.app'
-  )
 
-  app.use(cors(corsOptions))
-  next()
-})
-// app.use(cors(corsOptions))
+app.use(cors())
 
-// app.options('*', cors)
 app.use(router)
 
 app.use(
@@ -40,9 +27,6 @@ app.use(
   }
 )
 
-// app.listen(4000, () =>
-//   console.log('⚡ Server started on http://localhost:4000')
-// )
-app.listen('https://animegeek-node-api.vercel.app', () =>
-  console.log('⚡ Server started')
+app.listen(4000, () =>
+  console.log('⚡ Server started on http://localhost:4000')
 )
