@@ -11,7 +11,14 @@ const corsOptions = {
   optionsSuccessStatus: 200
 }
 app.use(express.json())
-app.use(cors(corsOptions))
+app.use((request: Request, response: Response, next: NextFunction) => {
+  response.header('Access-Control-Allow-Origin', '*')
+
+  app.use(cors(corsOptions))
+  next()
+})
+// app.use(cors(corsOptions))
+
 // app.options('*', cors)
 app.use(router)
 
