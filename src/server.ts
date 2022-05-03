@@ -24,6 +24,9 @@ app.use(
   }
 )
 
-app.listen(4000, () =>
-  console.log('⚡ Server started on http://localhost:4000')
+// app.listen(4000, () =>
+//   console.log('⚡ Server started on http://localhost:4000')
+// )
+app.listen('https://animegeek-node-api.vercel.app', () =>
+  console.log('⚡ Server started')
 )
