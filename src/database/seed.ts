@@ -27,6 +27,29 @@ async function main() {
       }
     }
   })
+
+  await prisma.user.create({
+    data: {
+      email: 'vendedor@vendedor.com',
+      password: encryptedPassword,
+      role: {
+        connectOrCreate: {
+          where: {
+            name: 'Vendedor'
+          },
+          create: {
+            name: 'Vendedor',
+            description: 'Guichê de vendas'
+          }
+        }
+      },
+      profile: {
+        create: {
+          name: 'Vendedor'
+        }
+      }
+    }
+  })
 }
 
 main()
