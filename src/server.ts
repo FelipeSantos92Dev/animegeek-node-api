@@ -5,18 +5,14 @@ import cors from 'cors'
 import AppError from './errors/AppError'
 
 const app = express()
+const corsOptions = {
+  origin: '*',
+  optionsSuccessStatus: 200,
+  preflightContinue: true
+}
 app.use(express.json())
-app.use((request: Request, response: Response, next: NextFunction) => {
-  response.header('Access-Control-Allow-Origin', '*')
-  response.header(
-    'Access-Control-Allow-Methods: GET, POST, PATCH, PUT, DELETE, OPTIONS'
-  )
-  response.header(
-    'Access-Control-Allow-Headers: Origin, Content-Type, X-Auth-Token'
-  )
-  app.use(cors())
-  next()
-})
+app.use(cors(corsOptions))
+// app.options('*', cors)
 app.use(router)
 
 app.use(
