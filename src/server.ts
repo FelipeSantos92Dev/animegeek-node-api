@@ -12,7 +12,10 @@ const corsOptions = {
 }
 app.use(express.json())
 app.use((request: Request, response: Response, next: NextFunction) => {
-  response.header('Access-Control-Allow-Origin', '*')
+  response.header(
+    'Access-Control-Allow-Origin',
+    'https://dashboard-ignite.vercel.app'
+  )
 
   app.use(cors(corsOptions))
   next()
