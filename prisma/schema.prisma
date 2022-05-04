@@ -60,7 +60,7 @@ model Category {
 
 model Cart {
   id         String   @id @default(uuid())
-  price      String
+  price      Float
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 
@@ -74,7 +74,7 @@ model Transaction {
   status               String
   payment_type         String?
   installments         Int?
-  total                String?
+  total                Float?
   processor_response   String?
   customer_email       String?
   customer_name        String?

@@ -1,5 +1,6 @@
 import { prismaClient } from '../database/prismaClient'
 import AppError from '../errors/AppError'
+import PagarMeProvider from '../providers/PagarMeProvider'
 
 type TransactionData = {
   cart_code: string
@@ -22,6 +23,12 @@ type TransactionData = {
 }
 
 export default class TransactionService {
+  private paymentProvider
+
+  constructor(paymentProvider: any) {
+    this.paymentProvider = paymentProvider || new PagarMeProvider()
+  }
+
   async execute({
     cart_code,
     payment_type,
@@ -35,7 +42,11 @@ export default class TransactionService {
     billing_neighborhood,
     billing_city,
     billing_state,
-    billing_zip_code
+    billing_zip_code,
+    credit_card_number,
+    credit_card_expiration,
+    credit_card_holder_name,
+    credit_card_cvv
   }: TransactionData) {
     const cart = await prismaClient.cart.findFirst({
       where: {
@@ -65,6 +76,27 @@ export default class TransactionService {
         billing_zip_code,
         status: 'started'
       }
+    })
+
+    this.paymentProvider.execute({
+      code: transaction.code,
+      payment_type,
+      total: transaction.total,
+      installments,
+      customer_name,
+      customer_email,
+      customer_mobile,
+      customer_document,
+      billing_address,
+      billing_number,
+      billing_neighborhood,
+      billing_city,
+      billing_state,
+      billing_zip_code,
+      credit_card_number,
+      credit_card_expiration,
+      credit_card_holder_name,
+      credit_card_cvv
     })
 
     return transaction

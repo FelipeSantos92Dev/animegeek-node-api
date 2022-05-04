@@ -1295,6 +1295,11 @@ optionator@^0.9.1:
     type-check "^0.4.0"
     word-wrap "^1.2.3"
 
+pagarme@^4.23.0:
+  version "4.23.0"
+  resolved "https://registry.yarnpkg.com/pagarme/-/pagarme-4.23.0.tgz#6100de381e3f309dfd138c76a7ae7e5894ddd527"
+  integrity sha512-ByMjIXovOvxt4qRVG0w5AW7i2afYfv/W85PvJiNVI8K8e3Bng0fmOwZhzWujsnCZ2QYR9fyCnuCX5TY4XKIm9Q==
+
 parent-module@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/parent-module/-/parent-module-1.0.1.tgz#691d2709e78c79fae3a156622452d00762caaaa2"

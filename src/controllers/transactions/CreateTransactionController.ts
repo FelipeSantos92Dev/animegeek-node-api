@@ -1,10 +1,11 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import * as Yup from 'yup'
-import parsePhonenumber from 'libphonenumber-js'
+import parsePhoneNumber from 'libphonenumber-js'
 import { cpf, cnpj } from 'cpf-cnpj-validator'
 import { Request, Response } from 'express'
 import AppError from '../../errors/AppError'
 import { prismaClient } from '../../database/prismaClient'
+import TransactionService from '../../services/TransactionService'
 
 export default class CreateTransactionController {
   async handle(request: Request, response: Response) {
@@ -41,7 +42,7 @@ export default class CreateTransactionController {
       customer_mobile: Yup.string()
         .required()
         .test('is-valid-mobile', '${path} is not a mobile number!', (value) =>
-          parsePhonenumber(value!, 'BR')!.isValid()
+          parsePhoneNumber(value!, 'BR')!.isValid()
         ),
       customer_document: Yup.string()
         .required()
@@ -92,6 +93,27 @@ export default class CreateTransactionController {
       throw new AppError('Carrinho não encontrado', 404)
     }
 
-    return response.status(201).json()
+    const service = new TransactionService()
+    const result = await service.execute({
+      cart_code,
+      payment_type,
+      installments,
+      customer_name,
+      customer_email,
+      customer_mobile: parsePhoneNumber(customer_mobile, 'BR')!.format('E.164'),
+      customer_document,
+      billing_address,
+      billing_number,
+      billing_neighborhood,
+      billing_city,
+      billing_state,
+      billing_zip_code,
+      credit_card_number,
+      credit_card_expiration,
+      credit_card_holder_name,
+      credit_card_cvv
+    })
+
+    return response.status(201).json(result)
   }
 }
