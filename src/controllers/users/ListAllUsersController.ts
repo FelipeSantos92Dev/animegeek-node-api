@@ -7,21 +7,10 @@ export default class ListAllUsersController {
       select: {
         id: true,
         email: true,
+        role: true,
         created_at: true,
         updated_at: true,
-        role: {
-          select: {
-            name: true
-          }
-        },
-        profile: {
-          select: {
-            id: true,
-            name: true,
-            avatar: true,
-            cellphone: true
-          }
-        }
+        profile: {}
       },
       orderBy: {
         updated_at: 'desc'

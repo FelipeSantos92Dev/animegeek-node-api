@@ -5,13 +5,13 @@ import AppError from '../../errors/AppError'
 
 export default class CreateUserController {
   async handle(request: Request, response: Response) {
-    const { user } = request.body
+    const { email, password, name, role } = request.body.user
 
-    const encryptedPassword = await hash(user.password, 8)
+    const encryptedPassword = await hash(password, 8)
 
     const userAlreadyExists = await prismaClient.user.findFirst({
       where: {
-        email: user.email
+        email
       }
     })
 
@@ -21,22 +21,12 @@ export default class CreateUserController {
       try {
         await prismaClient.user.create({
           data: {
-            email: user.email,
+            email,
             password: encryptedPassword,
-            role: {
-              connectOrCreate: {
-                where: {
-                  name: 'Geek'
-                },
-                create: {
-                  name: 'Geek',
-                  description: 'Usuário padrão'
-                }
-              }
-            },
+            role,
             profile: {
               create: {
-                name: user.name
+                name
               }
             }
           }

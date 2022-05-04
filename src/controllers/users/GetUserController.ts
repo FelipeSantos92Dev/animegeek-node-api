@@ -14,7 +14,7 @@ interface ResponseData {
 }
 export default class GetUserController {
   async handle(request: Request, response: Response) {
-    const { id } = request.user
+    const { id } = request.params
     const user = await prismaClient.user.findFirst({
       where: {
         id
@@ -22,32 +22,25 @@ export default class GetUserController {
       select: {
         id: true,
         email: true,
-        roleName: true,
-        profile: {
-          select: {
-            id: true,
-            name: true,
-            avatar: true,
-            cellphone: true
-          }
-        },
+        role: true,
         created_at: true,
-        updated_at: true
+        updated_at: true,
+        profile: {}
       }
     })
 
-    const tokenReturn: ResponseData = {
+    const userReturn: ResponseData = {
       user: {
         id,
         email: user?.email,
-        name: user?.profile.name,
-        role: user?.roleName,
-        avatar: user?.profile.avatar,
+        name: user?.profile?.name,
+        role: user?.role,
+        avatar: user?.profile?.avatar,
         created_at: user?.created_at,
         updated_at: user?.updated_at
       }
     }
 
-    return response.json(tokenReturn)
+    return response.json(userReturn)
   }
 }

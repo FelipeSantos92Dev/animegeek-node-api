@@ -6,8 +6,8 @@ export default class GenerateRefreshToken {
     const expiresIn = dayjs().add(45, 'second').unix()
     const generateRefreshToken = await prismaClient.refreshToken.create({
       data: {
-        userId,
-        expiresIn
+        user_id: userId,
+        expires_in: expiresIn
       }
     })
 

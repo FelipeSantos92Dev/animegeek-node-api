@@ -12,7 +12,7 @@ export default class ensureAccessByRole {
       }
     })
 
-    if (user?.roleName !== 'Administrador') {
+    if (user?.role !== 'Administrador') {
       throw new AppError('Usuário sem permissões de acesso!', 401)
     } else {
       next()

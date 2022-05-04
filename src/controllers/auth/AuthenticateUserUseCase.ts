@@ -15,16 +15,8 @@ export default class AuthenticateUserUseCase {
       where: {
         email
       },
-      select: {
-        id: true,
-        email: true,
-        password: true,
-        roleName: true,
-        profile: {
-          select: {
-            name: true
-          }
-        }
+      include: {
+        profile: {}
       }
     })
     if (!user) {
@@ -38,7 +30,7 @@ export default class AuthenticateUserUseCase {
 
       await prismaClient.refreshToken.deleteMany({
         where: {
-          userId: user.id
+          user_id: user.id
         }
       })
 
@@ -48,8 +40,8 @@ export default class AuthenticateUserUseCase {
       const generateRefreshToken = new GenerateRefreshToken()
       const refreshToken = await generateRefreshToken.execute(user.id)
 
-      const name = user.profile.name
-      const role = user.roleName
+      const name = user.profile?.name
+      const role = user.role
 
       return { token, refreshToken, email, name, role }
     }

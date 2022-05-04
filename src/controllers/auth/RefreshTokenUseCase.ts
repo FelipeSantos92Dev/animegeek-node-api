@@ -17,12 +17,10 @@ export default class RefreshTokenUseCase {
     } else {
       const user = await prismaClient.user.findFirst({
         where: {
-          id: oldToken.userId
+          id: oldToken.user_id
         },
-        select: {
-          email: true,
-          roleName: true,
-          profile: true
+        include: {
+          profile: {}
         }
       })
 
@@ -30,31 +28,31 @@ export default class RefreshTokenUseCase {
         throw new AppError('Credenciais inválidas!', 401)
       } else {
         const generateToken = new GenerateToken()
-        const token = await generateToken.execute(oldToken.userId)
+        const token = await generateToken.execute(oldToken.user_id)
 
         const email = user.email
-        const name = user.profile.name
-        const role = user.roleName
+        const name = user.profile?.name
+        const role = user.role
 
         const refreshTokenExpired = dayjs().isAfter(
-          dayjs.unix(oldToken.expiresIn)
+          dayjs.unix(oldToken.expires_in)
         )
 
         if (refreshTokenExpired) {
           await prismaClient.refreshToken.deleteMany({
             where: {
-              userId: oldToken.userId
+              user_id: oldToken.user_id
             }
           })
 
           const generateRefreshToken = new GenerateRefreshToken()
           const refreshToken = await generateRefreshToken.execute(
-            oldToken.userId
+            oldToken.user_id
           )
 
           const email = user.email
-          const name = user.profile.name
-          const role = user.roleName
+          const name = user.profile?.name
+          const role = user.role
 
           return { token, refreshToken, email, name, role }
         }

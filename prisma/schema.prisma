@@ -17,49 +17,35 @@ model User {
   id         String   @id @default(uuid())
   email      String   @unique
   password   String
-  profileId  String   @unique
-  roleName   String?  @default("Geek")
+  role       String
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 
-  profile       Profile       @relation(fields: [profileId], references: [id])
-  role          Role?         @relation(fields: [roleName], references: [name])
+  profile       Profile?
   refresh_token RefreshToken?
   @@map("users")
 }
 
 model RefreshToken {
-  id        String @id @default(uuid())
-  expiresIn Int
-  userId    String @unique
-  user      User   @relation(fields: [userId], references: [id])
+  id         String @id @default(uuid())
+  user_id    String @unique
+  expires_in Int
 
+  user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
   @@map("refresh_token")
 }
 
 model Profile {
   id         String   @id @default(uuid())
+  user_id    String   @unique
   name       String?  @default("")
   cellphone  String?  @default("")
   avatar     String?  @default("")
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 
-  user User?
-
+  user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
   @@map("profiles")
-}
-
-model Role {
-  id          String   @id @default(uuid())
-  name        String   @unique
-  description String
-  created_at  DateTime @default(now())
-  updated_at  DateTime @updatedAt
-
-  users User[]
-
-  @@map("roles")
 }
 
 model Category {
@@ -70,4 +56,37 @@ model Category {
   updated_at  DateTime @updatedAt
 
   @@map("categories")
+}
+
+model Cart {
+  id         String   @id @default(uuid())
+  price      String
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  @@map("carts")
+}
+
+model Transaction {
+  id                   String   @id @default(uuid())
+  cart_code            String
+  status               String
+  payment_type         String
+  installments         Int
+  total                String
+  processor_response   String
+  customer_email       String
+  customer_name        String
+  customer_mobile      String
+  customer_document    String
+  billing_address      String
+  billing_number       String
+  billing_neighborhood String
+  billing_city         String
+  billing_state        String
+  billing_zip_code     String
+  created_at           DateTime @default(now())
+  updated_at           DateTime @updatedAt
+
+  @@map("transactions")
 }

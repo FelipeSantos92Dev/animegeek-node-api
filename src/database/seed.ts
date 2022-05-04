@@ -9,17 +9,7 @@ async function main() {
     data: {
       email: 'admin@admin.com',
       password: encryptedPassword,
-      role: {
-        connectOrCreate: {
-          where: {
-            name: 'Administrador'
-          },
-          create: {
-            name: 'Administrador',
-            description: 'Administrador do sistema'
-          }
-        }
-      },
+      role: 'Administrador',
       profile: {
         create: {
           name: 'Administrador'
@@ -28,21 +18,12 @@ async function main() {
     }
   })
 
+  const encryptedSellerPassword = await hash('vendedor', 8)
   await prisma.user.create({
     data: {
       email: 'vendedor@vendedor.com',
-      password: encryptedPassword,
-      role: {
-        connectOrCreate: {
-          where: {
-            name: 'Vendedor'
-          },
-          create: {
-            name: 'Vendedor',
-            description: 'Guichê de vendas'
-          }
-        }
-      },
+      password: encryptedSellerPassword,
+      role: 'Vendedor',
       profile: {
         create: {
           name: 'Vendedor'

@@ -21,8 +21,8 @@ export default class GenerateToken {
     } else {
       const tokenUser = {
         email: user.email,
-        name: user.profile.name,
-        role: user.roleName
+        name: user.profile?.name,
+        role: user.role
       }
 
       const token = sign({ tokenUser }, secret, {
