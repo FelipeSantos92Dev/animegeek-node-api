@@ -81,24 +81,16 @@ export default class CreateTransactionController {
     if (!(await schema.isValid(request.body))) {
       throw new AppError('Error on validate schema', 400)
     }
-    await prismaClient.transaction.create({
-      data: {
-        cart_code,
-        payment_type,
-        installments,
-        customer_name,
-        customer_email,
-        customer_mobile,
-        customer_document,
-        billing_address,
-        billing_number,
-        billing_neighborhood,
-        billing_city,
-        billing_state,
-        billing_zip_code,
-        status: 'generated'
+
+    const cart = await prismaClient.cart.findFirst({
+      where: {
+        id: cart_code
       }
     })
+
+    if (!cart) {
+      throw new AppError('Carrinho não encontrado', 404)
+    }
 
     return response.status(201).json()
   }
