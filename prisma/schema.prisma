@@ -69,7 +69,7 @@ model Cart {
 
 model Transaction {
   id                   String   @id @default(uuid())
-  code                 String
+  code                 String   @default(uuid())
   cart_code            String
   status               String
   payment_type         String?

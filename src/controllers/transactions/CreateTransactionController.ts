@@ -4,6 +4,7 @@ import parsePhonenumber from 'libphonenumber-js'
 import { cpf, cnpj } from 'cpf-cnpj-validator'
 import { Request, Response } from 'express'
 import AppError from '../../errors/AppError'
+import { prismaClient } from '../../database/prismaClient'
 
 export default class CreateTransactionController {
   async handle(request: Request, response: Response) {
@@ -80,6 +81,25 @@ export default class CreateTransactionController {
     if (!(await schema.isValid(request.body))) {
       throw new AppError('Error on validate schema', 400)
     }
+    await prismaClient.transaction.create({
+      data: {
+        cart_code,
+        payment_type,
+        installments,
+        customer_name,
+        customer_email,
+        customer_mobile,
+        customer_document,
+        billing_address,
+        billing_number,
+        billing_neighborhood,
+        billing_city,
+        billing_state,
+        billing_zip_code,
+        status: 'generated'
+      }
+    })
+
     return response.status(201).json()
   }
 }
