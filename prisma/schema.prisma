@@ -69,22 +69,23 @@ model Cart {
 
 model Transaction {
   id                   String   @id @default(uuid())
+  code                 String
   cart_code            String
   status               String
-  payment_type         String
-  installments         Int
-  total                String
-  processor_response   String
-  customer_email       String
-  customer_name        String
-  customer_mobile      String
-  customer_document    String
-  billing_address      String
-  billing_number       String
-  billing_neighborhood String
-  billing_city         String
-  billing_state        String
-  billing_zip_code     String
+  payment_type         String?
+  installments         Int?
+  total                String?
+  processor_response   String?
+  customer_email       String?
+  customer_name        String?
+  customer_mobile      String?
+  customer_document    String?
+  billing_address      String?
+  billing_number       String?
+  billing_neighborhood String?
+  billing_city         String?
+  billing_state        String?
+  billing_zip_code     String?
   created_at           DateTime @default(now())
   updated_at           DateTime @updatedAt
 
