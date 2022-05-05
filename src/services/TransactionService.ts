@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { prismaClient } from '../database/prismaClient'
 import AppError from '../errors/AppError'
 import PagarMeProvider from '../providers/PagarMeProvider'
@@ -61,7 +62,7 @@ export default class TransactionService {
     const transaction = await prismaClient.transaction.create({
       data: {
         cart_code: cart.id,
-        total: cart.price,
+        total: cart.price.toFixed(2),
         payment_type,
         installments,
         customer_name,

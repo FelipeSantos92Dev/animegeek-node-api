@@ -7,7 +7,7 @@ export default class CreateCartController {
 
     await prismaClient.cart.create({
       data: {
-        price
+        price: price.toFixed(2)
       }
     })
 

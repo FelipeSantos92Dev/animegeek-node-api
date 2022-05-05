@@ -1,4 +1,5 @@
 import { cpf } from 'cpf-cnpj-validator'
+import pagarme from 'pagarme'
 import AppError from '../errors/AppError'
 
 type Item = {
@@ -54,14 +55,15 @@ export default class PagarMeProvider {
   }: TransactionData) {
     const billetParams = {
       payment_method: 'boleto',
-      amount: total * 100,
+      amount: 795,
       installments: 1
     }
 
     const creditCardParams = {
       payment_method: 'credit_card',
-      amount: total * 100,
+      amount: 795,
       installments,
+      credit_card_holder_name,
       card_number: credit_card_number.replace(/[^?0-9]/g, ''),
       card_expiration_date: credit_card_expiration.replace(/[^?0-9]/g, ''),
       card_cvv: credit_card_cvv,
@@ -83,7 +85,6 @@ export default class PagarMeProvider {
           `Tipo de pagamento ${payment_type} não encontrado`,
           400
         )
-        break
     }
 
     const customerParams = {
@@ -114,7 +115,7 @@ export default class PagarMeProvider {
               neighborhood: billing_neighborhood,
               street: billing_address,
               street_number: billing_number,
-              zipcode: billing_zip_code
+              zipcode: billing_zip_code.replace(/[^?0-9]/g, '')
             }
           }
         }
@@ -126,7 +127,7 @@ export default class PagarMeProvider {
             items: items.map((item) => ({
               id: item?.id.toString(),
               title: item?.title,
-              unit_price: item?.amount * 100,
+              unit_price: 256,
               quantity: item?.quantity || 1,
               tangible: false
             }))
@@ -136,7 +137,7 @@ export default class PagarMeProvider {
               {
                 id: '1',
                 title: `t-${code}`,
-                unit_price: total * 100,
+                unit_price: Number((total * 100).toFixed()),
                 quantity: 1,
                 tangible: false
               }
@@ -151,14 +152,21 @@ export default class PagarMeProvider {
 
     const transactionParams = {
       async: false,
-      // postback_url
+      postback_url: 'https://animegeek.vercel.app/tickets',
       ...paymentParams,
       ...customerParams,
       ...billingParams,
       ...itemsParams,
       ...metadataParams
     }
-
-    console.debug('transactionParams', transactionParams)
+    const client = await pagarme.client.connect({
+      api_key: process.env.PAGARME_API_KEY
+    })
+    try {
+      const response = await client.transactions.create(null, transactionParams)
+      console.debug('response', response)
+    } catch (error) {
+      console.log({ error })
+    }
   }
 }

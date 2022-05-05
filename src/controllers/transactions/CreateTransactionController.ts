@@ -93,14 +93,16 @@ export default class CreateTransactionController {
       throw new AppError('Carrinho não encontrado', 404)
     }
 
-    const service = new TransactionService()
+    const service = new TransactionService(null)
     const result = await service.execute({
       cart_code,
       payment_type,
       installments,
       customer_name,
       customer_email,
-      customer_mobile: parsePhoneNumber(customer_mobile, 'BR')!.format('E.164'),
+      customer_mobile: parsePhoneNumber(customer_mobile!, 'BR')!.format(
+        'E.164'
+      ),
       customer_document,
       billing_address,
       billing_number,
