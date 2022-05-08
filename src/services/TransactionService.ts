@@ -3,27 +3,44 @@ import { prismaClient } from '../database/prismaClient'
 import AppError from '../errors/AppError'
 import PagarMeProvider from '../providers/PagarMeProvider'
 
-type TransactionData = {
-  cart_code: string
-  payment_type: string
-  installments: number
-  customer_name: string
-  customer_email: string
-  customer_mobile: string
-  customer_document: string
-  billing_address: string
-  billing_number: string
-  billing_neighborhood: string
-  billing_city: string
-  billing_state: string
-  billing_zip_code: string
-  credit_card_number: string
-  credit_card_expiration: string
-  credit_card_holder_name: string
-  credit_card_cvv: number
+type CustomerData = {
+  name: string
+  email: string
+  mobile: string
+  document: string
 }
 
-export default class TransactionService {
+type BillingData = {
+  address: string
+  number: string
+  neighborhood: string
+  city: string
+  state: string
+  zipcode: string
+}
+
+type CreditCardData = {
+  number: string
+  expiration: string
+  holdername: string
+  cvv: string
+}
+
+type TransactionData = {
+  cartCode: string
+  paymentType: string
+  installments: number
+  customer: CustomerData
+  billing: BillingData
+  creditCard: CreditCardData
+}
+
+interface UpdateStatusProps {
+  code: string
+  providerStatus: string
+}
+
+class TransactionService {
   private paymentProvider
 
   constructor(paymentProvider: any) {
@@ -31,27 +48,16 @@ export default class TransactionService {
   }
 
   async execute({
-    cart_code,
-    payment_type,
+    cartCode,
+    paymentType,
     installments,
-    customer_name,
-    customer_email,
-    customer_mobile,
-    customer_document,
-    billing_address,
-    billing_number,
-    billing_neighborhood,
-    billing_city,
-    billing_state,
-    billing_zip_code,
-    credit_card_number,
-    credit_card_expiration,
-    credit_card_holder_name,
-    credit_card_cvv
+    customer,
+    billing,
+    creditCard
   }: TransactionData) {
     const cart = await prismaClient.cart.findFirst({
       where: {
-        id: cart_code
+        id: cartCode
       }
     })
 
@@ -61,45 +67,71 @@ export default class TransactionService {
 
     const transaction = await prismaClient.transaction.create({
       data: {
-        cart_code: cart.id,
-        total: cart.price.toFixed(2),
-        payment_type,
+        cartCode: cart.id,
+        total: cart.price,
+        paymentType,
         installments,
-        customer_name,
-        customer_email,
-        customer_mobile,
-        customer_document,
-        billing_address,
-        billing_number,
-        billing_neighborhood,
-        billing_city,
-        billing_state,
-        billing_zip_code,
-        status: 'started'
+        status: 'started',
+        customerName: customer.name,
+        customerEmail: customer.email,
+        customerMobile: customer.mobile,
+        customerDocument: customer.document,
+        billingAddress: billing.address,
+        billingNumber: billing.number,
+        billingNeighborhood: billing.neighborhood,
+        billingCity: billing.city,
+        billingState: billing.state,
+        billingZipCode: billing.zipcode
       }
     })
 
-    this.paymentProvider.execute({
-      code: transaction.code,
-      payment_type,
+    const response = await this.paymentProvider.execute({
+      transactionCode: transaction.code,
       total: transaction.total,
+      paymentType,
       installments,
-      customer_name,
-      customer_email,
-      customer_mobile,
-      customer_document,
-      billing_address,
-      billing_number,
-      billing_neighborhood,
-      billing_city,
-      billing_state,
-      billing_zip_code,
-      credit_card_number,
-      credit_card_expiration,
-      credit_card_holder_name,
-      credit_card_cvv
+      customer,
+      creditCard,
+      billing
     })
 
-    return transaction
+    await prismaClient.transaction.update({
+      data: {
+        transactionId: response.transactionId,
+        status: response.status,
+        processorResponse: response.processorResponse
+      }
+    })
+
+    return response
+  }
+
+  async updateStatus({ code, providerStatus }: UpdateStatusProps) {
+    const transaction = await prismaClient.transaction.findFirst({
+      where: {
+        code
+      }
+    })
+
+    if (!transaction) {
+      throw new Error(`Transaction ${code} not found`)
+    }
+
+    const status = this.paymentProvider.translateStatus(providerStatus)
+
+    if (!status) {
+      throw new Error('Status is empty!')
+    }
+
+    await prismaClient.transaction.update({
+      where: {
+        id: transaction.id
+      },
+      data: {
+        status
+      }
+    })
   }
 }
+
+export default TransactionService

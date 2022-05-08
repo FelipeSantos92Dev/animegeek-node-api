@@ -7,75 +7,92 @@ import AppError from '../../errors/AppError'
 import { prismaClient } from '../../database/prismaClient'
 import TransactionService from '../../services/TransactionService'
 
+type RequestData = {
+  cartCode: string
+  paymentType: string
+  installments: string
+  customerName: string
+  customerEmail: string
+  customerMobile: string
+  customerDocument: string
+  billingAddress: string
+  billingNumber: string
+  billingNeighborhood: string
+  billingCity: string
+  billingState: string
+  billingZipCode: string
+  creditCardNumber: string
+  creditCardExpiration: string
+  creditCardHolderName: string
+  creditCardCvv: string
+}
 export default class CreateTransactionController {
-  async handle(request: Request, response: Response) {
+  async handle(request: Request<RequestData>, response: Response) {
     const {
-      cart_code,
-      payment_type,
+      cartCode,
+      paymentType,
       installments,
-      customer_name,
-      customer_email,
-      customer_mobile,
-      customer_document,
-      billing_address,
-      billing_number,
-      billing_neighborhood,
-      billing_city,
-      billing_state,
-      billing_zip_code,
-      credit_card_number,
-      credit_card_expiration,
-      credit_card_holder_name,
-      credit_card_cvv
+      customerName,
+      customerEmail,
+      customerMobile,
+      customerDocument,
+      billingAddress,
+      billingNumber,
+      billingNeighborhood,
+      billingCity,
+      billingState,
+      billingZipCode,
+      creditCardNumber,
+      creditCardExpiration,
+      creditCardHolderName,
+      creditCardCvv
     } = request.body
 
     const schema = Yup.object({
-      cart_code: Yup.string().required(),
-      payment_type: Yup.mixed().oneOf(['credit_card', 'billet']).required(),
+      cartCode: Yup.string().required(),
+      paymentType: Yup.mixed().oneOf(['credit_card', 'billet']).required(),
       installments: Yup.number()
         .min(1)
-        .when('payment_type', (payment_type, schema) =>
-          payment_type === 'credit_card' ? schema.max(12) : schema.max(1)
+        .when('paymentType', (paymentType, schema) =>
+          paymentType === 'credit_card' ? schema.max(12) : schema.max(1)
         ),
-      customer_name: Yup.string().required().min(2),
-      customer_email: Yup.string().required().email(),
-      customer_mobile: Yup.string()
+      customerName: Yup.string().required().min(2),
+      customerEmail: Yup.string().required().email(),
+      customerMobile: Yup.string()
         .required()
         .test('is-valid-mobile', '${path} is not a mobile number!', (value) =>
           parsePhoneNumber(value!, 'BR')!.isValid()
         ),
-      customer_document: Yup.string()
+      customerDocument: Yup.string()
         .required()
         .test(
           'is-valid-document',
           '${path} is not a valid CPF / CNPJ!',
           (value) => cpf.isValid(value!) || cnpj.isValid(value!)
         ),
-      billing_address: Yup.string().required(),
-      billing_number: Yup.string().required(),
-      billing_neighborhood: Yup.string().required(),
-      billing_city: Yup.string().required(),
-      billing_state: Yup.string().required(),
-      billing_zip_code: Yup.string().required(),
-      credit_card_number: Yup.string().when(
-        'payment_type',
-        (payment_type, schema) =>
-          payment_type === 'credit_card' ? schema.required() : schema
+      billingAddress: Yup.string().required(),
+      billingNumber: Yup.string().required(),
+      billingNeighborhood: Yup.string().required(),
+      billingCity: Yup.string().required(),
+      billingState: Yup.string().required(),
+      billingZipCode: Yup.string().required(),
+      creditCardNumber: Yup.string().when(
+        'paymentType',
+        (paymentType, schema) =>
+          paymentType === 'credit_card' ? schema.required() : schema
       ),
-      credit_card_expiration: Yup.string().when(
-        'payment_type',
-        (payment_type, schema) =>
-          payment_type === 'credit_card' ? schema.required() : schema
+      creditCardExpiration: Yup.string().when(
+        'paymentType',
+        (paymentType, schema) =>
+          paymentType === 'credit_card' ? schema.required() : schema
       ),
-      credit_card_holder_name: Yup.string().when(
-        'payment_type',
-        (payment_type, schema) =>
-          payment_type === 'credit_card' ? schema.required() : schema
+      creditCardHolderName: Yup.string().when(
+        'paymentType',
+        (paymentType, schema) =>
+          paymentType === 'credit_card' ? schema.required() : schema
       ),
-      credit_card_cvv: Yup.string().when(
-        'payment_type',
-        (payment_type, schema) =>
-          payment_type === 'credit_card' ? schema.required() : schema
+      creditCardCvv: Yup.string().when('paymentType', (paymentType, schema) =>
+        paymentType === 'credit_card' ? schema.required() : schema
       )
     })
 
@@ -85,7 +102,7 @@ export default class CreateTransactionController {
 
     const cart = await prismaClient.cart.findFirst({
       where: {
-        id: cart_code
+        id: cartCode
       }
     })
 
@@ -95,25 +112,29 @@ export default class CreateTransactionController {
 
     const service = new TransactionService(null)
     const result = await service.execute({
-      cart_code,
-      payment_type,
+      cartCode,
+      paymentType,
       installments,
-      customer_name,
-      customer_email,
-      customer_mobile: parsePhoneNumber(customer_mobile!, 'BR')!.format(
-        'E.164'
-      ),
-      customer_document,
-      billing_address,
-      billing_number,
-      billing_neighborhood,
-      billing_city,
-      billing_state,
-      billing_zip_code,
-      credit_card_number,
-      credit_card_expiration,
-      credit_card_holder_name,
-      credit_card_cvv
+      customer: {
+        name: customerName,
+        email: customerEmail,
+        mobile: parsePhoneNumber(customerMobile, 'BR')!.format('E.164'),
+        document: customerDocument
+      },
+      billing: {
+        address: billingAddress,
+        number: billingNumber,
+        neighborhood: billingNeighborhood,
+        city: billingCity,
+        state: billingState,
+        zipcode: billingZipCode
+      },
+      creditCard: {
+        number: creditCardNumber,
+        expiration: creditCardExpiration,
+        holdername: creditCardHolderName,
+        cvv: creditCardCvv
+      }
     })
 
     return response.status(201).json(result)

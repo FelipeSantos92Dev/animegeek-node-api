@@ -1,49 +1,37 @@
 import { cpf } from 'cpf-cnpj-validator'
 import pagarme from 'pagarme'
-import AppError from '../errors/AppError'
 
-export default class PagarMeProvider {
+class PagarMeProvider {
   async execute({
-    code,
-    payment_type,
+    transactionCode,
     total,
+    paymentType,
     installments,
-    customer_name,
-    customer_email,
-    customer_mobile,
-    customer_document,
-    billing_address,
-    billing_number,
-    billing_neighborhood,
-    billing_city,
-    billing_state,
-    billing_zip_code,
-    credit_card_number,
-    credit_card_expiration,
-    credit_card_holder_name,
-    credit_card_cvv,
+    creditCard,
+    customer,
+    billing,
     items
   }) {
     const billetParams = {
       payment_method: 'boleto',
-      amount: 795,
+      amount: total,
       installments: 1
     }
 
     const creditCardParams = {
       payment_method: 'credit_card',
-      amount: 795,
+      amount: total,
       installments,
-      credit_card_holder_name,
-      card_number: credit_card_number.replace(/[^?0-9]/g, ''),
-      card_expiration_date: credit_card_expiration.replace(/[^?0-9]/g, ''),
-      card_cvv: credit_card_cvv,
+      card_holder_name: creditCard.holdername,
+      card_number: creditCard.number.replace(/[^?0-9]/g, ''),
+      card_expiration_date: creditCard.expiration.replace(/[^?0-9]/g, ''),
+      card_cvv: creditCard.cvv,
       capture: true
     }
 
     let paymentParams
 
-    switch (payment_type) {
+    switch (paymentType) {
       case 'credit_card':
         paymentParams = creditCardParams
         break
@@ -52,41 +40,38 @@ export default class PagarMeProvider {
         break
 
       default:
-        throw new AppError(
-          `Tipo de pagamento ${payment_type} não encontrado`,
-          400
-        )
+        throw new Error(`Tipo de pagamento ${paymentType} não encontrado!`)
     }
 
     const customerParams = {
       customer: {
-        external_id: customer_email,
-        name: customer_name,
-        email: customer_email,
-        type: cpf.isValid(customer_document) ? 'individual' : 'corporation',
+        external_id: customer.email,
+        name: customer.name,
+        email: customer.email,
+        type: cpf.isValid(customer.document) ? 'individual' : 'corporation',
         country: 'br',
-        phone_numbers: [customer_mobile],
+        phone_numbers: [customer.mobile],
         documents: [
           {
-            type: cpf.isValid(customer_document) ? 'cpf' : 'cnpj',
-            number: customer_document.replace(/[^?0-9]/g, '')
+            type: cpf.isValid(customer.document) ? 'cpf' : 'cnpj',
+            number: customer.document.replace(/[^?0-9]/g, '')
           }
         ]
       }
     }
 
-    const billingParams = billing_zip_code
+    const billingParams = billing?.zipcode
       ? {
           billing: {
             name: 'Billing Address',
             address: {
               country: 'br',
-              state: billing_state,
-              city: billing_city,
-              neighborhood: billing_neighborhood,
-              street: billing_address,
-              street_number: billing_number,
-              zipcode: billing_zip_code.replace(/[^?0-9]/g, '')
+              state: billing.state,
+              city: billing.city,
+              neighborhood: billing.neighborhood,
+              street: billing.address,
+              street_number: billing.number,
+              zipcode: billing.zipcode.replace(/[^?0-9]/g, '')
             }
           }
         }
@@ -98,7 +83,7 @@ export default class PagarMeProvider {
             items: items.map((item) => ({
               id: item?.id.toString(),
               title: item?.title,
-              unit_price: 256,
+              unit_price: item?.amount,
               quantity: item?.quantity || 1,
               tangible: false
             }))
@@ -107,8 +92,8 @@ export default class PagarMeProvider {
             items: [
               {
                 id: '1',
-                title: `t-${code}`,
-                unit_price: Number((total * 100).toFixed()),
+                title: `t-${transactionCode}`,
+                unit_price: total,
                 quantity: 1,
                 tangible: false
               }
@@ -117,27 +102,54 @@ export default class PagarMeProvider {
 
     const metadataParams = {
       metadata: {
-        transaction_code: code
+        transaction_code: transactionCode
       }
     }
 
     const transactionParams = {
       async: false,
-      postback_url: 'https://animegeek.vercel.app/tickets',
+      postback_url: process.env.PAGARME_WEBHOOK_URL,
       ...paymentParams,
       ...customerParams,
       ...billingParams,
       ...itemsParams,
       ...metadataParams
     }
+
     const client = await pagarme.client.connect({
       api_key: process.env.PAGARME_API_KEY
     })
-    try {
-      const response = await client.transactions.create(null, transactionParams)
-      console.debug('response', response)
-    } catch (error) {
-      console.log({ error })
+
+    const response = await client.transactions.create(transactionParams)
+
+    return {
+      transactionId: response.id,
+      status: this.translateStatus(response.status),
+      billet: {
+        url: response.boleto_url,
+        barCode: response.boleto_barcode
+      },
+      card: {
+        id: response.card?.id
+      },
+      processorResponse: JSON.stringify(response)
     }
   }
+
+  translateStatus(status) {
+    const statusMap = {
+      processing: 'processing',
+      waiting_payment: 'pending',
+      authorized: 'pending',
+      paid: 'approved',
+      refused: 'refused',
+      pending_refund: 'refunded',
+      refunded: 'refunded',
+      chargeback: 'chargeback'
+    }
+
+    return statusMap[status]
+  }
 }
+
+export default PagarMeProvider
