@@ -2,35 +2,6 @@ import { cpf } from 'cpf-cnpj-validator'
 import pagarme from 'pagarme'
 import AppError from '../errors/AppError'
 
-type Item = {
-  id: string
-  title: string
-  amount: number
-  quantity: number
-}
-
-type TransactionData = {
-  code: string
-  payment_type: string
-  total: number
-  installments: number
-  customer_name: string
-  customer_email: string
-  customer_mobile: string
-  customer_document: string
-  billing_address: string
-  billing_number: string
-  billing_neighborhood: string
-  billing_city: string
-  billing_state: string
-  billing_zip_code: string
-  credit_card_number: string
-  credit_card_expiration: string
-  credit_card_holder_name: string
-  credit_card_cvv: number
-  items: Item[]
-}
-
 export default class PagarMeProvider {
   async execute({
     code,
@@ -52,7 +23,7 @@ export default class PagarMeProvider {
     credit_card_holder_name,
     credit_card_cvv,
     items
-  }: TransactionData) {
+  }) {
     const billetParams = {
       payment_method: 'boleto',
       amount: 795,

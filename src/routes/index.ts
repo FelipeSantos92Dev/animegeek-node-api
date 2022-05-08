@@ -6,6 +6,7 @@ import { usersRouter } from './users.routes'
 import { categoriesRouter } from './categories.routes'
 import { transactionsRouter } from './transactions.routes'
 import { cartsRouter } from './carts.routes'
+import { pagseguroRouter } from './pagseguro.routes'
 
 const router = Router()
 
@@ -15,5 +16,6 @@ router.use('/users', usersRouter)
 router.use('/categories', categoriesRouter)
 router.use('/transactions', transactionsRouter)
 router.use('/carts', cartsRouter)
+router.use('/sessions', pagseguroRouter)
 
 export { router }

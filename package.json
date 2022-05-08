@@ -32,6 +32,7 @@
   },
   "dependencies": {
     "@prisma/client": "^3.13.0-dev.39",
+    "axios": "^0.27.2",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "cpf-cnpj-validator": "^1.0.3",
@@ -40,7 +41,6 @@
     "express-async-errors": "^3.1.1",
     "jsonwebtoken": "^8.5.1",
     "libphonenumber-js": "^1.9.52",
-    "node-pagseguro": "^0.1.9",
     "pagarme": "^4.23.0",
     "yup": "^0.32.11"
   }
