@@ -60,7 +60,7 @@ model Category {
 
 model Cart {
   id         String   @id @default(uuid())
-  code       String   @default(uuid())
+  code       String   @unique @default(uuid())
   price      Int
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
@@ -70,14 +70,14 @@ model Cart {
 
 model Transaction {
   id                  String   @id @default(uuid())
-  code                String   @default(uuid())
+  code                String   @unique @default(uuid())
   cartCode            String
   status              String
   paymentType         String?
   installments        Int?
   total               Int?
-  transactionId       String?
-  processorResponse   String?
+  transactionId       Int?
+  processorResponse   Json?
   customerEmail       String?
   customerName        String?
   customerMobile      String?

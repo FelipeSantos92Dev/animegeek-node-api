@@ -3,6 +3,7 @@ import * as Yup from 'yup'
 import parsePhoneNumber from 'libphonenumber-js'
 import { cpf, cnpj } from 'cpf-cnpj-validator'
 import { Request, Response } from 'express'
+
 import AppError from '../../errors/AppError'
 import { prismaClient } from '../../database/prismaClient'
 import TransactionService from '../../services/TransactionService'
@@ -10,7 +11,7 @@ import TransactionService from '../../services/TransactionService'
 type RequestData = {
   cartCode: string
   paymentType: string
-  installments: string
+  installments: number
   customerName: string
   customerEmail: string
   customerMobile: string
@@ -102,7 +103,7 @@ export default class CreateTransactionController {
 
     const cart = await prismaClient.cart.findFirst({
       where: {
-        id: cartCode
+        code: cartCode
       }
     })
 
@@ -137,6 +138,6 @@ export default class CreateTransactionController {
       }
     })
 
-    return response.status(201).json(result)
+    return response.status(200).json(result)
   }
 }

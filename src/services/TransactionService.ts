@@ -57,7 +57,7 @@ class TransactionService {
   }: TransactionData) {
     const cart = await prismaClient.cart.findFirst({
       where: {
-        id: cartCode
+        code: cartCode
       }
     })
 
@@ -67,7 +67,7 @@ class TransactionService {
 
     const transaction = await prismaClient.transaction.create({
       data: {
-        cartCode: cart.id,
+        cartCode: cart.code,
         total: cart.price,
         paymentType,
         installments,
@@ -96,6 +96,9 @@ class TransactionService {
     })
 
     await prismaClient.transaction.update({
+      where: {
+        id: transaction.id
+      },
       data: {
         transactionId: response.transactionId,
         status: response.status,
