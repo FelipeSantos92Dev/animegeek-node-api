@@ -7,6 +7,8 @@ export default class CreateUserController {
   async handle(request: Request, response: Response) {
     const { email, password, name, role } = request.body.user
 
+    const userRole = role ? role : 'Geek'
+
     const encryptedPassword = await hash(password, 8)
 
     const userAlreadyExists = await prismaClient.user.findFirst({
@@ -23,7 +25,7 @@ export default class CreateUserController {
           data: {
             email,
             password: encryptedPassword,
-            role,
+            role: userRole,
             profile: {
               create: {
                 name
