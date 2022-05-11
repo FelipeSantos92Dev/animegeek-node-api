@@ -1,44 +1,55 @@
-import { hash } from 'bcryptjs'
 import { Request, Response } from 'express'
 import { prismaClient } from '../../database/prismaClient'
 import AppError from '../../errors/AppError'
 
 export default class UpdateUserController {
   async handle(request: Request, response: Response) {
-    const { id } = request.params
-    const { email, password, name, avatar, cellphone } = request.body.user
+    const { id } = request.user
+    const {
+      name,
+      avatar,
+      cellphone,
+      address,
+      number,
+      neighborhood,
+      complement,
+      city,
+      state,
+      zipcode
+    } = request.body.user
 
-    const encryptedPassword = await hash(password, 8)
+    const user = await prismaClient.user.findFirst({
+      where: {
+        id
+      }
+    })
 
-    if (email === '' || password === '') {
-      throw new AppError('Campos obrigatórios não preenchidos!', 403)
-    } else {
-      const user = await prismaClient.user.update({
-        where: {
-          id
-        },
-        data: {
-          email,
-          password: encryptedPassword,
-          profile: {
-            update: {
-              name,
-              avatar,
-              cellphone
-            }
-          }
-        },
-        include: {
-          profile: {
-            select: {
-              name: true,
-              cellphone: true
-            }
+    if (!user) {
+      throw new AppError('Usuário não enconrado!', 404)
+    }
+
+    await prismaClient.user.update({
+      where: {
+        id
+      },
+      data: {
+        profile: {
+          update: {
+            name,
+            avatar,
+            cellphone,
+            address,
+            number,
+            neighborhood,
+            complement,
+            city,
+            state,
+            zipcode
           }
         }
-      })
+      }
+    })
 
-      return response.json(user)
-    }
+    return response.json(user)
   }
 }

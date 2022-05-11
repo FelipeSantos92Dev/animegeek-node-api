@@ -23,6 +23,7 @@ model User {
 
   profile       Profile?
   refresh_token RefreshToken?
+  cart          Cart[]
   @@map("users")
 }
 
@@ -36,15 +37,22 @@ model RefreshToken {
 }
 
 model Profile {
-  id         String   @id @default(uuid())
-  user_id    String   @unique
-  name       String?  @default("")
-  cellphone  String?  @default("")
-  avatar     String?  @default("")
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
+  id           String   @id @default(uuid())
+  user_id      String?  @unique
+  name         String?  @default("")
+  cellphone    String?  @default("")
+  address      String?  @default("")
+  number       String?  @default("")
+  neighborhood String?  @default("")
+  complement   String?  @default("")
+  city         String?  @default("")
+  state        String?  @default("")
+  zipcode      String?  @default("")
+  avatar       String?  @default("")
+  created_at   DateTime @default(now())
+  updated_at   DateTime @updatedAt
 
-  user User @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  user User? @relation(fields: [user_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
   @@map("profiles")
 }
 
@@ -52,26 +60,43 @@ model Category {
   id          String   @id @default(uuid())
   name        String   @unique
   description String
+  price       Int
+  times       Int
   created_at  DateTime @default(now())
   updated_at  DateTime @updatedAt
 
+  ticket Ticket[]
   @@map("categories")
 }
 
 model Cart {
   id         String   @id @default(uuid())
   code       String   @unique @default(uuid())
+  user_id    String?
   price      Int
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 
+  user        User?        @relation(fields: [user_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  ticket      Ticket[]
+  transaction Transaction?
   @@map("carts")
+}
+
+model Ticket {
+  id          String  @id @default(uuid())
+  cart_id     String?
+  category_id String?
+
+  cart     Cart?     @relation(fields: [cart_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  category Category? @relation(fields: [category_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  @@map("tickets")
 }
 
 model Transaction {
   id                  String   @id @default(uuid())
   code                String   @unique @default(uuid())
-  cartCode            String
+  cartCode            String?  @unique
   status              String
   paymentType         String?
   installments        Int?
@@ -91,5 +116,6 @@ model Transaction {
   created_at          DateTime @default(now())
   updated_at          DateTime @updatedAt
 
+  cart Cart? @relation(fields: [cartCode], references: [code], onUpdate: Cascade, onDelete: Cascade)
   @@map("transactions")
 }
