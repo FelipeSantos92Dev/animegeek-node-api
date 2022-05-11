@@ -14,7 +14,8 @@ interface ResponseData {
 }
 export default class GetUserController {
   async handle(request: Request, response: Response) {
-    const { id } = request.params
+    const { id } = request.user
+
     const user = await prismaClient.user.findFirst({
       where: {
         id
