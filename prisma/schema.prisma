@@ -62,6 +62,7 @@ model Category {
   description String
   price       Int
   times       Int
+  visible     Boolean
   created_at  DateTime @default(now())
   updated_at  DateTime @updatedAt
 

@@ -4,7 +4,7 @@ import AppError from '../../errors/AppError'
 
 export default class CreateCategoryController {
   async handle(request: Request, response: Response) {
-    const { name, description, price, times } = request.body.category
+    const { name, description, price, times, visible } = request.body.category
 
     const categoryAlreadyExists = await prismaClient.category.findFirst({
       where: {
@@ -20,7 +20,8 @@ export default class CreateCategoryController {
           name,
           description,
           price,
-          times
+          times,
+          visible
         }
       })
       response.status(201).json({ message: 'Categoria criada!' })
