@@ -75,6 +75,7 @@ model Cart {
   code       String   @unique @default(uuid())
   user_id    String
   price      Int
+  items      Json
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 
