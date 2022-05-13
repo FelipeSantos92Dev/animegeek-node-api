@@ -8,9 +8,9 @@ const userRouter = Router()
 const getUser = new GetUserController().handle
 const updateUser = new UpdateUserController().handle
 
-const protectedRoutes = new ensureAuthenticated().handle
+userRouter.use(new ensureAuthenticated().handle)
 
-userRouter.get('/', protectedRoutes, getUser)
-userRouter.put('/', protectedRoutes, updateUser)
+userRouter.get('/', getUser)
+userRouter.put('/', updateUser)
 
 export { userRouter }
