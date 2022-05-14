@@ -27,6 +27,7 @@ type CreditCardData = {
 }
 
 type TransactionData = {
+  userId: string
   cartCode: string
   paymentType: string
   installments: number
@@ -53,7 +54,8 @@ class TransactionService {
     installments,
     customer,
     billing,
-    creditCard
+    creditCard,
+    userId
   }: TransactionData) {
     const cart = await prismaClient.cart.findFirst({
       where: {
@@ -62,7 +64,7 @@ class TransactionService {
     })
 
     if (!cart) {
-      throw new AppError('Carrinho não encontrado', 404)
+      throw new AppError('Carrinho não encontrado!', 404)
     }
 
     const transaction = await prismaClient.transaction.create({
@@ -81,7 +83,8 @@ class TransactionService {
         billingNeighborhood: billing.neighborhood,
         billingCity: billing.city,
         billingState: billing.state,
-        billingZipCode: billing.zipcode
+        billingZipCode: billing.zipcode,
+        userId
       }
     })
 

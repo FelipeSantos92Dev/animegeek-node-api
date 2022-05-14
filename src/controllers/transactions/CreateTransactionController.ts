@@ -8,27 +8,28 @@ import AppError from '../../errors/AppError'
 import { prismaClient } from '../../database/prismaClient'
 import TransactionService from '../../services/TransactionService'
 
-type RequestData = {
-  cartCode: string
-  paymentType: string
-  installments: number
-  customerName: string
-  customerEmail: string
-  customerMobile: string
-  customerDocument: string
-  billingAddress: string
-  billingNumber: string
-  billingNeighborhood: string
-  billingCity: string
-  billingState: string
-  billingZipCode: string
-  creditCardNumber: string
-  creditCardExpiration: string
-  creditCardHolderName: string
-  creditCardCvv: string
-}
+// type RequestData = {
+//   cartCode: string
+//   paymentType: string
+//   installments: number
+//   customerName: string
+//   customerEmail: string
+//   customerMobile: string
+//   customerDocument: string
+//   billingAddress: string
+//   billingNumber: string
+//   billingNeighborhood: string
+//   billingCity: string
+//   billingState: string
+//   billingZipCode: string
+//   creditCardNumber: string
+//   creditCardExpiration: string
+//   creditCardHolderName: string
+//   creditCardCvv: string
+//   userId: string
+// }
 export default class CreateTransactionController {
-  async handle(request: Request<RequestData>, response: Response) {
+  async handle(request: Request, response: Response) {
     const {
       cartCode,
       paymentType,
@@ -46,7 +47,8 @@ export default class CreateTransactionController {
       creditCardNumber,
       creditCardExpiration,
       creditCardHolderName,
-      creditCardCvv
+      creditCardCvv,
+      userId
     } = request.body
 
     const schema = Yup.object({
@@ -94,7 +96,8 @@ export default class CreateTransactionController {
       ),
       creditCardCvv: Yup.string().when('paymentType', (paymentType, schema) =>
         paymentType === 'credit_card' ? schema.required() : schema
-      )
+      ),
+      userId: Yup.string().required()
     })
 
     if (!(await schema.isValid(request.body))) {
@@ -108,7 +111,7 @@ export default class CreateTransactionController {
     })
 
     if (!cart) {
-      throw new AppError('Carrinho não encontrado', 404)
+      throw new AppError('Carrinho não encontrado!', 404)
     }
 
     const service = new TransactionService(null)
@@ -135,7 +138,8 @@ export default class CreateTransactionController {
         expiration: creditCardExpiration,
         holdername: creditCardHolderName,
         cvv: creditCardCvv
-      }
+      },
+      userId
     })
 
     return response.status(200).json(result)

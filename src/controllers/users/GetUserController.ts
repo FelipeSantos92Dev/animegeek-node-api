@@ -1,5 +1,6 @@
 import { Request, Response } from 'express'
 import { prismaClient } from '../../database/prismaClient'
+import AppError from '../../errors/AppError'
 
 interface ResponseData {
   user: {
@@ -30,15 +31,19 @@ export default class GetUserController {
       }
     })
 
+    if (!user) {
+      throw new AppError('Usuário não encontrado!', 404)
+    }
+
     const userReturn: ResponseData = {
       user: {
         id,
-        email: user?.email,
-        name: user?.profile?.name,
-        role: user?.role,
-        avatar: user?.profile?.avatar,
-        created_at: user?.created_at,
-        updated_at: user?.updated_at
+        email: user.email,
+        name: user.profile?.name,
+        role: user.role,
+        avatar: user.profile?.avatar,
+        created_at: user.created_at,
+        updated_at: user.updated_at
       }
     }
 

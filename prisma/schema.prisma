@@ -24,6 +24,8 @@ model User {
   profile       Profile?
   refresh_token RefreshToken?
   cart          Cart[]
+  transaction   Transaction[]
+  ticket        Ticket[]
   @@map("users")
 }
 
@@ -89,9 +91,11 @@ model Ticket {
   id          String @id @default(uuid())
   cart_id     String
   category_id String
+  userId      String
 
   cart     Cart     @relation(fields: [cart_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
   category Category @relation(fields: [category_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  user     User     @relation(fields: [userId], references: [id], onUpdate: Cascade, onDelete: Cascade)
   @@map("tickets")
 }
 
@@ -99,6 +103,7 @@ model Transaction {
   id                  String   @id @default(uuid())
   code                String   @unique @default(uuid())
   cartCode            String   @unique
+  userId              String
   status              String
   paymentType         String?
   installments        Int?
@@ -119,5 +124,6 @@ model Transaction {
   updated_at          DateTime @updatedAt
 
   cart Cart @relation(fields: [cartCode], references: [code], onUpdate: Cascade, onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onUpdate: Cascade, onDelete: Cascade)
   @@map("transactions")
 }
