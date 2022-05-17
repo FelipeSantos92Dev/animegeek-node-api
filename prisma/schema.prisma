@@ -78,6 +78,7 @@ model Cart {
   user_id    String
   price      Int
   items      Json
+  status     String   @default("")
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 

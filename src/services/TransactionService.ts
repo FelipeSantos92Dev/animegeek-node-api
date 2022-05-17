@@ -98,7 +98,7 @@ class TransactionService {
       billing
     })
 
-    await prismaClient.transaction.update({
+    const transactionStatus = await prismaClient.transaction.update({
       where: {
         id: transaction.id
       },
@@ -106,6 +106,15 @@ class TransactionService {
         transactionId: response.transactionId,
         status: response.status,
         processorResponse: response.processorResponse
+      }
+    })
+
+    await prismaClient.cart.update({
+      where: {
+        code: transactionStatus.cartCode
+      },
+      data: {
+        status: transactionStatus.status
       }
     })
 

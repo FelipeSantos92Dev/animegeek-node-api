@@ -28,7 +28,7 @@ export default class AuthenticateUserUseCase {
         throw new AppError('Credenciais inválidas!', 401)
       }
 
-      await prismaClient.refreshToken.delete({
+      await prismaClient.refreshToken.deleteMany({
         where: {
           user_id: user.id
         }

@@ -19,7 +19,7 @@ export default class CreateCartController {
 
     const cart = await prismaClient.cart.create({
       data: {
-        price: totalCost,
+        price: totalCost * 100,
         user_id: user.id,
         items: { cartOne, cartTwo, cartThree }
       }

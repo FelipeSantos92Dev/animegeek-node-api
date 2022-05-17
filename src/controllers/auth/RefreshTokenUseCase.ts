@@ -39,7 +39,7 @@ export default class RefreshTokenUseCase {
         )
 
         if (refreshTokenExpired) {
-          await prismaClient.refreshToken.delete({
+          await prismaClient.refreshToken.deleteMany({
             where: {
               user_id: oldToken.user_id
             }
