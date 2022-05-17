@@ -9,6 +9,9 @@ export default class GetAllCartsByUserController {
     const carts = await prismaClient.cart.findMany({
       where: {
         user_id: id
+      },
+      orderBy: {
+        created_at: 'asc'
       }
     })
 

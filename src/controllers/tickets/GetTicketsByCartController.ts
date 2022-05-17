@@ -9,6 +9,9 @@ export default class GetTicketsByCartController {
     const tickets = await prismaClient.ticket.findMany({
       where: {
         cart_id: id
+      },
+      orderBy: {
+        created_at: 'desc'
       }
     })
 

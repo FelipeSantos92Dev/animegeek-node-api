@@ -5,7 +5,7 @@ export default class ListAllCartsController {
   async handle(request: Request, response: Response) {
     const carts = await prismaClient.cart.findMany({
       orderBy: {
-        updated_at: 'desc'
+        created_at: 'asc'
       }
     })
 

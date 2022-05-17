@@ -89,10 +89,12 @@ model Cart {
 }
 
 model Ticket {
-  id          String @id @default(uuid())
+  id          String   @id @default(uuid())
   cart_id     String
   category_id String
   userId      String
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
 
   cart     Cart     @relation(fields: [cart_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
   category Category @relation(fields: [category_id], references: [id], onUpdate: Cascade, onDelete: Cascade)
