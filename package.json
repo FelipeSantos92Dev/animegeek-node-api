@@ -7,8 +7,7 @@
   "author": "Felipe Santos <dev.felipesantos@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "dev": "ts-node-dev --ignore-watch node_modules --inspect --respawn --transpile-only  src/server.ts",
-    "postinstall": "prisma generate"
+    "dev": "ts-node-dev --ignore-watch node_modules --inspect --respawn --transpile-only  src/server.ts"
   },
   "prisma": {
     "seed": "ts-node src/database/seed.ts"

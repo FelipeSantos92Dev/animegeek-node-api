@@ -11,7 +11,7 @@ export default class GetCartByUserController {
         user_id: id
       },
       orderBy: {
-        created_at: 'asc'
+        created_at: 'desc'
       }
     })
 

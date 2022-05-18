@@ -109,12 +109,21 @@ class TransactionService {
       }
     })
 
-    await prismaClient.cart.update({
+    const cartStatus = await prismaClient.cart.update({
       where: {
         code: transactionStatus.cartCode
       },
       data: {
         status: transactionStatus.status
+      }
+    })
+
+    await prismaClient.ticket.updateMany({
+      where: {
+        cart_id: cartStatus.id
+      },
+      data: {
+        status: cartStatus.status
       }
     })
 

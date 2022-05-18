@@ -1,10 +1,30 @@
-version: '3'
+version: '3.7'
 
 services:
+  database:
+    image: postgres
+    container_name: database_postgre
+    restart: always
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=docker
+      - POSTGRES_PASSWORD=Felipe13
+      - POSTGRES_DB=animegeek_docker
+    volumes:
+      - database_data:/data/postgre
+    network_mode: host
   app:
     build: .
+    restart: always
+    command: npm run dev
     container_name: animegeek
     ports:
       - 4000:4000
     volumes:
       - .:/usr/app
+    network_mode: host
+
+volumes:
+  database_data:
+    driver: local
