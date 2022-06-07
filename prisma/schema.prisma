@@ -96,6 +96,7 @@ model Ticket {
   category_id String
   userId      String
   status      String   @default("")
+  type        String
   created_at  DateTime @default(now())
   updated_at  DateTime @updatedAt
 
