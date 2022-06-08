@@ -31,8 +31,9 @@ export default class CreateCartController {
       await prismaClient.ticket.create({
         data: {
           cart_id: cart.id,
-          category_id: '736c0f67-d44f-494f-b177-6d1014307273',
-          userId: id
+          category_id: '7f8b1425-fb7a-4639-a91b-8c3e51c270be',
+          userId: id,
+          type: 'online'
         }
       })
       countOne = countOne - 1
@@ -44,8 +45,9 @@ export default class CreateCartController {
       await prismaClient.ticket.create({
         data: {
           cart_id: cart.id,
-          category_id: '153549a4-3d6c-4b76-a7f2-ac6d5eb5ae0c',
-          userId: id
+          category_id: '7ab04273-1bc2-4f44-b8dd-7356a7b88c89',
+          userId: id,
+          type: 'online'
         }
       })
       countTwo = countTwo - 1
@@ -57,8 +59,9 @@ export default class CreateCartController {
       await prismaClient.ticket.create({
         data: {
           cart_id: cart.id,
-          category_id: '4bad24de-90eb-4051-aad7-9e93baabd5c6',
-          userId: id
+          category_id: 'ab08928e-a1a7-4708-a5dc-c3a3552d20bf',
+          userId: id,
+          type: 'online'
         }
       })
       countThree = countThree - 1
