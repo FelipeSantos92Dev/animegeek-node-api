@@ -31,7 +31,7 @@ export default class CreateCartController {
       await prismaClient.ticket.create({
         data: {
           cart_id: cart.id,
-          category_id: '7f8b1425-fb7a-4639-a91b-8c3e51c270be',
+          category_id: 'fb6c5dd6-66e6-472f-b484-aac9fe6baf64',
           userId: id,
           type: 'online'
         }
@@ -45,7 +45,7 @@ export default class CreateCartController {
       await prismaClient.ticket.create({
         data: {
           cart_id: cart.id,
-          category_id: '7ab04273-1bc2-4f44-b8dd-7356a7b88c89',
+          category_id: 'd8356f00-c334-4a75-92d2-503e90e3d6ba',
           userId: id,
           type: 'online'
         }
@@ -59,7 +59,7 @@ export default class CreateCartController {
       await prismaClient.ticket.create({
         data: {
           cart_id: cart.id,
-          category_id: 'ab08928e-a1a7-4708-a5dc-c3a3552d20bf',
+          category_id: '72970a23-06a3-4778-aead-b75a4f38fd4a',
           userId: id,
           type: 'online'
         }
