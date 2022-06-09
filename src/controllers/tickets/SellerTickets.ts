@@ -13,27 +13,29 @@ export default class SellerTickets {
       }
     })
 
+    const quantity = await prismaClient.ticket.count({
+      where: {
+        userId: id
+      }
+    })
+
+    if (quantity > 75) {
+      return response.send(null)
+    }
+
     if (!user) {
       throw new AppError('Usuário não encontrado', 404)
     }
 
-    // const cart = await prismaClient.cart.create({
-    //   data: {
-    //     price: 30 * 100,
-    //     user_id: user.id,
-    //     items: {}
-    //   }
-    // })
-
     await prismaClient.ticket.create({
       data: {
         id: uuid,
-        category_id: '3f3437ab-00ac-4a16-9a2f-2b8745b721bb',
+        category_id: 'ab08928e-a1a7-4708-a5dc-c3a3552d20bf',
         geekName,
         geekEmail,
         status: 'Approved',
         type,
-        userId: '05b711dd-3bf3-4cfc-a1f9-6093c12a4542'
+        userId: id
       }
     })
 
