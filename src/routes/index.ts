@@ -9,6 +9,7 @@ import { cartsRouter } from './carts.routes'
 import { cartRouter } from './cart.routes'
 import { cartsUserRouter } from './cartsuser.routes'
 import { ticketsRouter } from './tickets.routes'
+import { dashboardRouter } from './dashboard.routes'
 
 const router = Router()
 
@@ -21,5 +22,6 @@ router.use('/carts', cartsRouter)
 router.use('/cart', cartRouter)
 router.use('/cartsuser', cartsUserRouter)
 router.use('/tickets', ticketsRouter)
+router.use('/dashboard', dashboardRouter)
 
 export { router }

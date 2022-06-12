@@ -10,6 +10,24 @@ export default class DashboardController {
       }
     })
 
-    return response.json(totalCombo)
+    const totalSab = await prismaClient.ticket.count({
+      where: {
+        category_id: '72970a23-06a3-4778-aead-b75a4f38fd4a',
+        status: 'approved' || 'Approved'
+      }
+    })
+
+    const totalDom = await prismaClient.ticket.count({
+      where: {
+        category_id: '72970a23-06a3-4778-aead-b75a4f38fd4a',
+        status: 'approved' || 'Approved'
+      }
+    })
+
+    return response.json({
+      totalSab,
+      totalDom,
+      totalCombo
+    })
   }
 }
