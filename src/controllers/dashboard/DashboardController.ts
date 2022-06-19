@@ -6,21 +6,24 @@ export default class DashboardController {
     const totalCombo = await prismaClient.ticket.count({
       where: {
         category_id: '72970a23-06a3-4778-aead-b75a4f38fd4a',
-        status: 'approved' || 'Approved'
+        status: 'approved',
+        type: 'online'
       }
     })
 
     const totalSab = await prismaClient.ticket.count({
       where: {
         category_id: 'fb6c5dd6-66e6-472f-b484-aac9fe6baf64',
-        status: 'approved' || 'Approved'
+        status: 'approved',
+        type: 'online'
       }
     })
 
     const totalDom = await prismaClient.ticket.count({
       where: {
         category_id: 'd8356f00-c334-4a75-92d2-503e90e3d6ba',
-        status: 'approved'
+        status: 'approved',
+        type: 'online'
       }
     })
 
