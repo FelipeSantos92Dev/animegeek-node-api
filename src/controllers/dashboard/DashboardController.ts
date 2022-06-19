@@ -20,7 +20,7 @@ export default class DashboardController {
     const totalDom = await prismaClient.ticket.count({
       where: {
         category_id: 'd8356f00-c334-4a75-92d2-503e90e3d6ba',
-        status: 'approved' || 'Approved'
+        status: 'approved'
       }
     })
 
