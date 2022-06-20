@@ -7,7 +7,7 @@ export default class DashboardController {
       where: {
         category_id: '72970a23-06a3-4778-aead-b75a4f38fd4a',
         status: 'approved',
-        type: 'online'
+        type: 'online' || 'onlinePix'
       }
     })
 
@@ -15,7 +15,7 @@ export default class DashboardController {
       where: {
         category_id: 'fb6c5dd6-66e6-472f-b484-aac9fe6baf64',
         status: 'approved',
-        type: 'online'
+        type: 'online' || 'onlinePix'
       }
     })
 
