@@ -11,6 +11,7 @@ import { cartsUserRouter } from './cartsuser.routes'
 import { ticketsRouter } from './tickets.routes'
 import { ticketsPixRouter } from './ticketspix.routes'
 import { dashboardRouter } from './dashboard.routes'
+import { validationRouter } from './validation.routes'
 
 const router = Router()
 
@@ -25,5 +26,6 @@ router.use('/cartsuser', cartsUserRouter)
 router.use('/tickets', ticketsRouter)
 router.use('/ticketspix', ticketsPixRouter)
 router.use('/dashboard', dashboardRouter)
+router.use('/validation', validationRouter)
 
 export { router }
