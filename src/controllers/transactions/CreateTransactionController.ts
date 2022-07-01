@@ -8,26 +8,6 @@ import AppError from '../../errors/AppError'
 import { prismaClient } from '../../database/prismaClient'
 import TransactionService from '../../services/TransactionService'
 
-// type RequestData = {
-//   cartCode: string
-//   paymentType: string
-//   installments: number
-//   customerName: string
-//   customerEmail: string
-//   customerMobile: string
-//   customerDocument: string
-//   billingAddress: string
-//   billingNumber: string
-//   billingNeighborhood: string
-//   billingCity: string
-//   billingState: string
-//   billingZipCode: string
-//   creditCardNumber: string
-//   creditCardExpiration: string
-//   creditCardHolderName: string
-//   creditCardCvv: string
-//   userId: string
-// }
 export default class CreateTransactionController {
   async handle(request: Request, response: Response) {
     const {
