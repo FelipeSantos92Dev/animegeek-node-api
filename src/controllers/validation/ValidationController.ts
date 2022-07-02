@@ -14,7 +14,7 @@ export default class ValidationController {
     })
 
     if (!ticket) {
-      throw new AppError('Ingresso não enconrado!', 404)
+      return response.status(200).json({ message: 'Ingresso Não Encontrado!' })
     }
 
     if (ticket.category_id === 'fb6c5dd6-66e6-472f-b484-aac9fe6baf64') {
