@@ -5,7 +5,7 @@ import { prismaClient } from '../../database/prismaClient'
 export default class ValidationController {
   async handle(request: Request, response: Response) {
     const { ticketId } = request.body
-    console.log(ticketId)
+    console.log(request.body)
 
     const ticket = await prismaClient.ticket.findFirst({
       where: {
