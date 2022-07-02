@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
 import { prismaClient } from '../../database/prismaClient'
-import AppError from '../../errors/AppError'
+// import AppError from '../../errors/AppError'
 
 export default class ValidationController {
   async handle(request: Request, response: Response) {
