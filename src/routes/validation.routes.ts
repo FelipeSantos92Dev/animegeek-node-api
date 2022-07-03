@@ -8,6 +8,6 @@ const validationRouter = Router()
 
 const ticketValidation = new ValidationController().handle
 
-validationRouter.get('/', ticketValidation)
+validationRouter.post('/', ticketValidation)
 
 export { validationRouter }

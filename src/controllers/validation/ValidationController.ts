@@ -4,12 +4,12 @@ import { prismaClient } from '../../database/prismaClient'
 
 export default class ValidationController {
   async handle(request: Request, response: Response) {
-    const { ticketId } = request.body
-    console.log(request.body.ticketId)
+    const { qrcodeId } = request.body.validation
+    console.log(qrcodeId)
 
     const ticket = await prismaClient.ticket.findFirst({
       where: {
-        id: ticketId
+        id: qrcodeId
       }
     })
 
@@ -25,7 +25,7 @@ export default class ValidationController {
       } else {
         await prismaClient.ticket.update({
           where: {
-            id: ticketId
+            id: qrcodeId
           },
           data: {
             validations: 1
@@ -45,7 +45,7 @@ export default class ValidationController {
       } else {
         await prismaClient.ticket.update({
           where: {
-            id: ticketId
+            id: qrcodeId
           },
           data: {
             validations: 1
@@ -65,7 +65,7 @@ export default class ValidationController {
       } else {
         await prismaClient.ticket.update({
           where: {
-            id: ticketId
+            id: qrcodeId
           },
           data: {
             validations: 1
