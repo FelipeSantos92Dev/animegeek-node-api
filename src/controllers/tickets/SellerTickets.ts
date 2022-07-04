@@ -4,7 +4,7 @@ import AppError from '../../errors/AppError'
 
 export default class SellerTickets {
   async handle(request: Request, response: Response) {
-    const { uuid, geekName, geekEmail, type } = request.body.ticket
+    const { uuid, geekName, geekEmail, type, validations } = request.body.ticket
     const { id } = request.user
 
     const user = await prismaClient.user.findFirst({
@@ -13,16 +13,6 @@ export default class SellerTickets {
       }
     })
 
-    const quantity = await prismaClient.ticket.count({
-      where: {
-        userId: id
-      }
-    })
-
-    if (quantity > 75) {
-      return response.send(null)
-    }
-
     if (!user) {
       throw new AppError('Usuário não encontrado', 404)
     }
@@ -30,10 +20,11 @@ export default class SellerTickets {
     await prismaClient.ticket.create({
       data: {
         id: uuid,
-        category_id: '72970a23-06a3-4778-aead-b75a4f38fd4a',
+        category_id: 'fb6c5dd6-66e6-472f-b484-aac9fe6baf64',
         geekName,
         geekEmail,
         status: 'Approved',
+        validations,
         type,
         userId: id
       }
