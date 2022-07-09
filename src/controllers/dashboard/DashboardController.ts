@@ -51,6 +51,20 @@ export default class DashboardController {
       }
     })
 
+    const totalPresentSingle = await prismaClient.ticket.count({
+      where:{
+        validations: 1
+      }
+    })
+
+    const totalPresentCombo = await prismaClient.ticket.count({
+      where:{
+        validations: 2
+      }
+    })
+
+    const totalPresent = totalPresentSingle + totalPresentCombo
+
     const totalSab = totalSabCredit + totalSabPix
     const totalDom = totalDomCredit + totalDomPix
     const totalCombo = totalComboCredit + totalComboPix
@@ -58,7 +72,8 @@ export default class DashboardController {
     return response.json({
       totalSab,
       totalDom,
-      totalCombo
+      totalCombo,
+      totalPresent
     })
   }
 }

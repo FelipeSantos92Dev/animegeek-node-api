@@ -62,16 +62,26 @@ export default class ValidationController {
         return response
           .status(200)
           .json({ message: 'Ingresso Combo Já Utilizado!' })
-      } else {
+      } else if (ticket.validations === 0) {
+          await prismaClient.ticket.update({
+            where: {
+              id: qrcodeId
+            },
+            data: {
+              validations: 1
+            }
+          })
+          return response.status(200).json({ message: 'Ingresso Combo Válido! Leitura #1' })
+      } else if (ticket.validations === 1) {
         await prismaClient.ticket.update({
           where: {
             id: qrcodeId
           },
           data: {
-            validations: 1
+            validations: 2
           }
         })
-        return response.status(200).json({ message: 'Ingresso Combo Válido!' })
+        return response.status(200).json({ message: 'Ingresso Combo Válido! Leitura #2' })
       }
     }
 
