@@ -20,7 +20,7 @@ export default class SellerTickets {
     await prismaClient.ticket.create({
       data: {
         id: uuid,
-        category_id: 'fb6c5dd6-66e6-472f-b484-aac9fe6baf64',
+        category_id: 'd8356f00-c334-4a75-92d2-503e90e3d6ba',
         geekName,
         geekEmail,
         status: 'Approved',
