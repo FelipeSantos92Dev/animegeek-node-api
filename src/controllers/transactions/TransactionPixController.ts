@@ -17,12 +17,6 @@ export default class TransactionPixController {
       customerEmail,
       customerMobile,
       customerDocument,
-      billingAddress,
-      billingNumber,
-      billingNeighborhood,
-      billingCity,
-      billingState,
-      billingZipCode,
       userId
     } = request.body
 
@@ -47,12 +41,6 @@ export default class TransactionPixController {
           '${path} is not a valid CPF / CNPJ!',
           (value) => cpf.isValid(value!) || cnpj.isValid(value!)
         ),
-      billingAddress: Yup.string().required(),
-      billingNumber: Yup.string().required(),
-      billingNeighborhood: Yup.string().required(),
-      billingCity: Yup.string().required(),
-      billingState: Yup.string().required(),
-      billingZipCode: Yup.string().required(),
       userId: Yup.string().required()
     })
 
@@ -79,14 +67,6 @@ export default class TransactionPixController {
         email: customerEmail,
         mobile: parsePhoneNumber(customerMobile, 'BR')!.format('E.164'),
         document: customerDocument
-      },
-      billing: {
-        address: billingAddress,
-        number: billingNumber,
-        neighborhood: billingNeighborhood,
-        city: billingCity,
-        state: billingState,
-        zipcode: billingZipCode
       },
       pix: {
         expires_in: 360

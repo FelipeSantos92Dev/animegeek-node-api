@@ -1,22 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { prismaClient } from '../database/prismaClient'
 import AppError from '../errors/AppError'
-import PagarMeProvider from '../providers/PagarMeProvider'
+import PagarMePixProvider from '../providers/PagarMePixProvider'
 
 type CustomerData = {
   name: string
   email: string
   mobile: string
   document: string
-}
-
-type BillingData = {
-  address: string
-  number: string
-  neighborhood: string
-  city: string
-  state: string
-  zipcode: string
 }
 
 type PixData = {
@@ -29,7 +20,6 @@ type TransactionData = {
   paymentType: string
   customer: CustomerData
   pix: PixData
-  billing: BillingData
 }
 
 interface UpdateStatusProps {
@@ -41,14 +31,13 @@ class TransactionPixService {
   private paymentProvider
 
   constructor(paymentProvider: any) {
-    this.paymentProvider = paymentProvider || new PagarMeProvider()
+    this.paymentProvider = paymentProvider || new PagarMePixProvider()
   }
 
   async execute({
     cartCode,
     paymentType,
     customer,
-    billing,
     pix,
     userId
   }: TransactionData) {
@@ -59,7 +48,7 @@ class TransactionPixService {
     })
 
     if (!cart) {
-      throw new AppError('Carrinho não encontrado!', 404)
+      throw new AppError('Carrinho Service não encontrado!', 404)
     }
 
     const transaction = await prismaClient.transaction.create({
@@ -72,12 +61,6 @@ class TransactionPixService {
         customerEmail: customer.email,
         customerMobile: customer.mobile,
         customerDocument: customer.document,
-        billingAddress: billing.address,
-        billingNumber: billing.number,
-        billingNeighborhood: billing.neighborhood,
-        billingCity: billing.city,
-        billingState: billing.state,
-        billingZipCode: billing.zipcode,
         userId
       }
     })
@@ -87,8 +70,7 @@ class TransactionPixService {
       total: transaction.total,
       paymentType,
       customer,
-      pix,
-      billing
+      pix
     })
 
     const transactionStatus = await prismaClient.transaction.update({

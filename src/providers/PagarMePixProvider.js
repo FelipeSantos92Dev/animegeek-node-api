@@ -2,7 +2,7 @@ import { cpf } from 'cpf-cnpj-validator'
 import pagarme from 'pagarme'
 
 class PagarMePixProvider {
-  async execute({ transactionCode, total, customer, billing, items }) {
+  async execute({ transactionCode, total, customer, items }) {
     const pixParams = {
       payment_method: 'pix',
       pix: {
@@ -29,23 +29,6 @@ class PagarMePixProvider {
         ]
       }
     }
-
-    const billingParams = billing?.zipcode
-      ? {
-          billing: {
-            name: 'Billing Address',
-            address: {
-              country: 'br',
-              state: billing.state,
-              city: billing.city,
-              neighborhood: billing.neighborhood,
-              street: billing.address,
-              street_number: billing.number,
-              zipcode: billing.zipcode.replace(/[^?0-9]/g, '')
-            }
-          }
-        }
-      : {}
 
     const itemsParams =
       items && items.length > 0
@@ -81,7 +64,6 @@ class PagarMePixProvider {
       postback_url: process.env.PAGARME_WEBHOOK_URL,
       ...paymentParams,
       ...customerParams,
-      ...billingParams,
       ...itemsParams,
       ...metadataParams
     }
@@ -90,7 +72,10 @@ class PagarMePixProvider {
       api_key: process.env.PAGARME_API_KEY
     })
 
+    console.log(transactionParams)
+
     const response = await client.transactions.create(transactionParams)
+    console.log(response)
 
     return {
       transactionId: response.id,
