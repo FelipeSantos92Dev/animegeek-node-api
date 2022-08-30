@@ -17,7 +17,7 @@ export default class ValidationController {
       return response.status(200).json({ message: 'Ingresso Não Encontrado!' })
     }
 
-    if (ticket.category_id === 'fb6c5dd6-66e6-472f-b484-aac9fe6baf64') {
+    if (ticket.category_id === '1b7045c6-5216-4334-87b8-e7d4cd3b519a') {
       if (ticket.validations > 0) {
         return response
           .status(200)
@@ -37,7 +37,7 @@ export default class ValidationController {
       }
     }
 
-    if (ticket.category_id === 'd8356f00-c334-4a75-92d2-503e90e3d6ba') {
+    if (ticket.category_id === '0be4c521-f8eb-4e13-ae61-5bd8b1bb4361') {
       if (ticket.validations > 0) {
         return response
           .status(200)
@@ -57,21 +57,23 @@ export default class ValidationController {
       }
     }
 
-    if (ticket.category_id === '72970a23-06a3-4778-aead-b75a4f38fd4a') {
+    if (ticket.category_id === 'c73e9ff7-bb6c-43da-b3b0-6e638374312f') {
       if (ticket.validations > 1) {
         return response
           .status(200)
           .json({ message: 'Ingresso Combo Já Utilizado!' })
       } else if (ticket.validations === 0) {
-          await prismaClient.ticket.update({
-            where: {
-              id: qrcodeId
-            },
-            data: {
-              validations: 1
-            }
-          })
-          return response.status(200).json({ message: 'Ingresso Combo Válido! Leitura #1' })
+        await prismaClient.ticket.update({
+          where: {
+            id: qrcodeId
+          },
+          data: {
+            validations: 1
+          }
+        })
+        return response
+          .status(200)
+          .json({ message: 'Ingresso Combo Válido! Leitura #1' })
       } else if (ticket.validations === 1) {
         await prismaClient.ticket.update({
           where: {
@@ -81,7 +83,9 @@ export default class ValidationController {
             validations: 2
           }
         })
-        return response.status(200).json({ message: 'Ingresso Combo Válido! Leitura #2' })
+        return response
+          .status(200)
+          .json({ message: 'Ingresso Combo Válido! Leitura #2' })
       }
     }
 

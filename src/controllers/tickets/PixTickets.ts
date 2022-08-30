@@ -24,7 +24,7 @@ export default class PixTickets {
       while (countOne > 0) {
         await prismaClient.ticket.create({
           data: {
-            category_id: '138ab1e5-86c6-480a-b591-d0e03a81e617',
+            category_id: '1b7045c6-5216-4334-87b8-e7d4cd3b519a',
             geekName,
             geekEmail,
             status,
@@ -43,7 +43,7 @@ export default class PixTickets {
       while (countTwo > 0) {
         await prismaClient.ticket.create({
           data: {
-            category_id: '044b166d-2172-4478-a86a-c816550deb44',
+            category_id: '0be4c521-f8eb-4e13-ae61-5bd8b1bb4361',
             geekName,
             geekEmail,
             status,

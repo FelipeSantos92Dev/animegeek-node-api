@@ -5,7 +5,7 @@ export default class DashboardController {
   async handle(request: Request, response: Response) {
     const totalSabCredit = await prismaClient.ticket.count({
       where: {
-        category_id: '138ab1e5-86c6-480a-b591-d0e03a81e617',
+        category_id: '1b7045c6-5216-4334-87b8-e7d4cd3b519a',
         status: 'approved',
         type: 'online'
       }
@@ -13,7 +13,7 @@ export default class DashboardController {
 
     const totalDomCredit = await prismaClient.ticket.count({
       where: {
-        category_id: '044b166d-2172-4478-a86a-c816550deb44',
+        category_id: '0be4c521-f8eb-4e13-ae61-5bd8b1bb4361',
         status: 'approved',
         type: 'online'
       }
@@ -21,7 +21,7 @@ export default class DashboardController {
 
     const totalComboCredit = await prismaClient.ticket.count({
       where: {
-        category_id: '4eef78f7-fe15-46f2-90e2-b3dd766d6a27',
+        category_id: 'c73e9ff7-bb6c-43da-b3b0-6e638374312f',
         status: 'approved',
         type: 'online'
       }
@@ -29,7 +29,7 @@ export default class DashboardController {
 
     const totalSabPix = await prismaClient.ticket.count({
       where: {
-        category_id: '138ab1e5-86c6-480a-b591-d0e03a81e617',
+        category_id: '1b7045c6-5216-4334-87b8-e7d4cd3b519a',
         status: 'approved',
         type: 'onlinePix'
       }
@@ -37,7 +37,7 @@ export default class DashboardController {
 
     const totalDomPix = await prismaClient.ticket.count({
       where: {
-        category_id: '044b166d-2172-4478-a86a-c816550deb44',
+        category_id: '0be4c521-f8eb-4e13-ae61-5bd8b1bb4361',
         status: 'approved',
         type: 'onlinePix'
       }
@@ -45,7 +45,7 @@ export default class DashboardController {
 
     const totalComboPix = await prismaClient.ticket.count({
       where: {
-        category_id: '4eef78f7-fe15-46f2-90e2-b3dd766d6a27',
+        category_id: 'c73e9ff7-bb6c-43da-b3b0-6e638374312f',
         status: 'approved',
         type: 'onlinePix'
       }
