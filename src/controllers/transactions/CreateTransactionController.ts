@@ -30,7 +30,6 @@ export default class CreateTransactionController {
       creditCardCvv,
       userId
     } = request.body
-    console.log(request.body)
 
     const schema = Yup.object({
       cartCode: Yup.string().required(),

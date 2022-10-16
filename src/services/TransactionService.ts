@@ -2,6 +2,7 @@
 import { prismaClient } from '../database/prismaClient'
 import AppError from '../errors/AppError'
 import PagarMeProvider from '../providers/PagarMeProvider'
+import TicketEmailSender from './TicketEmailSender'
 
 type CustomerData = {
   name: string
@@ -108,6 +109,16 @@ class TransactionService {
         processorResponse: response.processorResponse
       }
     })
+
+    if (transactionStatus.status === 'approved') {
+      // async function handleSendEmail(event: FormEvent) {
+      //   event.preventDefault()
+      //   const name = 'Felipe Santos'
+      //   const senderMail = 'felipe.santos.92@hotmail.com'
+      //   await sendEmail(name, senderMail)
+      // }
+      TicketEmailSender('Felipe Santos', 'felipesantos.ti@outlook.com')
+    }
 
     const cartStatus = await prismaClient.cart.update({
       where: {
