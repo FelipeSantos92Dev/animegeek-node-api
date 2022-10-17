@@ -6,6 +6,8 @@ import AppError from './errors/AppError'
 
 const app = express()
 
+const port = process.env.PORT || 4000
+
 app.use(express.json())
 
 app.use(cors())
@@ -27,6 +29,6 @@ app.use(
   }
 )
 
-app.listen(4000, () =>
-  console.log('⚡ Server started on http://localhost:4000')
+app.listen(port, () =>
+  console.log(`⚡ Server started on http://localhost:${port}`)
 )

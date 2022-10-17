@@ -12,18 +12,19 @@ const transporter = nodemailer.createTransport(
 )
 
 export default async function TicketEmailSender(
-  name: string,
-  emailSender: string
+  name: string | null | undefined,
+  emailSender: string | null | undefined,
+  content: string | null | undefined
 ) {
   try {
-    if (!emailSender.trim() || !name.trim()) {
+    if (!emailSender?.trim() || !name?.trim()) {
       throw new AppError('Ocorreu um erro', 403)
     }
     const message = {
       from: email,
       to: emailSender,
       subject: `Nova mensagem de contato - ${name}`,
-      html: `<p><b>Email: </b>${emailSender}<br /><b>Mensagem: </b>Ingresso comprado com sucesso!</p>`,
+      html: `<p><b>Email: </b>${emailSender}<br /><b>Mensagem: </b>${content}</p>`,
       replyTo: emailSender
       // attachments: [
       //   {

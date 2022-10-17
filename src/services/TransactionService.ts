@@ -117,7 +117,8 @@ class TransactionService {
       //   const senderMail = 'felipe.santos.92@hotmail.com'
       //   await sendEmail(name, senderMail)
       // }
-      TicketEmailSender('Felipe Santos', 'felipesantos.ti@outlook.com')
+      const content = 'Ingresso adquirido com sucesso!'
+      TicketEmailSender(customer.name, customer.email, content)
     }
 
     const cartStatus = await prismaClient.cart.update({

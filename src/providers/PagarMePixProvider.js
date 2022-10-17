@@ -7,7 +7,7 @@ class PagarMePixProvider {
       payment_method: 'pix',
       pix: {
         amount: total,
-        expires_in: 360
+        expires_in: 52134613
       }
     }
 

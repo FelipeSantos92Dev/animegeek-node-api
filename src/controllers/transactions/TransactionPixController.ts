@@ -69,7 +69,7 @@ export default class TransactionPixController {
         document: customerDocument
       },
       pix: {
-        expires_in: 360
+        expires_in: 52134613
       },
       userId
     })
