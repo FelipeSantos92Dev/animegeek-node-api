@@ -19,8 +19,6 @@ export default class EmailSender {
   async handle(request: Request, response: Response) {
     try {
       const { senderMail, name } = request.body
-      console.log(senderMail, name)
-      // console.log(pathToAttachment)
 
       if (!senderMail.trim() || !name.trim()) {
         return response.status(403).send('')
@@ -30,7 +28,7 @@ export default class EmailSender {
         to: senderMail,
         subject: `Nova mensagem de contato - ${name}`,
         html: `<p><b>Email: </b>${senderMail}<br /><b>Mensagem: </b>Teste</p>`,
-        replyTo: senderMail,
+        replyTo: email,
         attachments: [
           {
             path: pathToAttachment

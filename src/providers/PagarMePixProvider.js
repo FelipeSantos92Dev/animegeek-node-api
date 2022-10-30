@@ -72,10 +72,7 @@ class PagarMePixProvider {
       api_key: process.env.PAGARME_API_KEY
     })
 
-    console.log(transactionParams)
-
     const response = await client.transactions.create(transactionParams)
-    console.log(response)
 
     return {
       transactionId: response.id,

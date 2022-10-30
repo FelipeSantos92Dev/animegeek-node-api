@@ -23,7 +23,6 @@ export default class ResetPasswordController {
     const userName = user.profile?.name
     const userEmail = user.email
     const newPassword = randomUUID()
-    // console.log(newPassword)
 
     const [splitedPassword] = newPassword.split('-')
     const encryptedPassword = await hash(splitedPassword, 8)
@@ -40,8 +39,6 @@ export default class ResetPasswordController {
     const content = `Senha temporária: ${splitedPassword}`
 
     ResetEmailSender(userName, userEmail, content)
-
-    console.log(user)
 
     return response.json({ user })
   }

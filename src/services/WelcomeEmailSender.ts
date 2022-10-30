@@ -25,7 +25,7 @@ export default async function WelcomeEmailSender(
       to: emailSender,
       subject: `Nova mensagem de contato - ${name}`,
       html: `<p><b>Email: </b>${emailSender}<br /><b>Mensagem: </b>${content}</p>`,
-      replyTo: emailSender
+      replyTo: email
     }
 
     await transporter.sendMail(message, (err, info) => {
