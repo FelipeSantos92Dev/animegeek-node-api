@@ -5,6 +5,7 @@ import AppError from '../../errors/AppError'
 export default class GetTicketsByCartController {
   async handle(request: Request, response: Response) {
     const { id } = request.params
+    console.log(id)
 
     const tickets = await prismaClient.ticket.findMany({
       where: {

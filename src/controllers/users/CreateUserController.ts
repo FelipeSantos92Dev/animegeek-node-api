@@ -2,7 +2,7 @@ import { Request, Response } from 'express'
 import { prismaClient } from '../../database/prismaClient'
 import { hash } from 'bcryptjs'
 import AppError from '../../errors/AppError'
-import TicketEmailSender from '../../services/TicketEmailSender'
+import WelcomeEmailSender from '../../services/WelcomeEmailSender'
 
 export default class CreateUserController {
   async handle(request: Request, response: Response) {
@@ -36,7 +36,7 @@ export default class CreateUserController {
         })
 
         const content = 'Bem vindo à Plataforma AnimeGeek!'
-        TicketEmailSender(name, email, content)
+        WelcomeEmailSender(name, email, content)
         response.status(201).json({ message: 'Usuário(a) cadastrado(a)!' })
       } catch (error) {
         throw new AppError(error.message, 400)
