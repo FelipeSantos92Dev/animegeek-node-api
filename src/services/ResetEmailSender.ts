@@ -11,9 +11,7 @@ const transporter = nodemailer.createTransport(
   })
 )
 
-const pathToAttachment = `${__dirname}/attachment.pdf`
-
-export default async function TicketEmailSender(
+export default async function ResetEmailSender(
   name: string | null | undefined,
   emailSender: string | null | undefined,
   content: string | null | undefined
@@ -27,20 +25,7 @@ export default async function TicketEmailSender(
       to: emailSender,
       subject: `Nova mensagem de contato - ${name}`,
       html: `<p><b>Email: </b>${emailSender}<br /><b>Mensagem: </b>${content}</p>`,
-      replyTo: emailSender,
-      attachments: [
-        {
-          path: pathToAttachment
-        }
-      ]
-      // attachments: [
-      //   {
-      //     content: attachment,
-      //     filename: 'attachment.pdf',
-      //     type: 'application/pdf',
-      //     disposition: 'attachment'
-      //   }
-      // ]
+      replyTo: emailSender
     }
 
     await transporter.sendMail(message, (err, info) => {

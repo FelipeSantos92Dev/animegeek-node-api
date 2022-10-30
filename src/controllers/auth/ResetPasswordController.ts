@@ -3,7 +3,7 @@ import { randomUUID } from 'crypto'
 import { Request, Response } from 'express'
 import { prismaClient } from '../../database/prismaClient'
 import AppError from '../../errors/AppError'
-import TicketEmailSender from '../../services/TicketEmailSender'
+import ResetEmailSender from '../../services/ResetEmailSender'
 
 export default class ResetPasswordController {
   async handle(request: Request, response: Response) {
@@ -23,12 +23,12 @@ export default class ResetPasswordController {
     const userName = user.profile?.name
     const userEmail = user.email
     const newPassword = randomUUID()
-    console.log(newPassword)
+    // console.log(newPassword)
 
     const [splitedPassword] = newPassword.split('-')
     const encryptedPassword = await hash(splitedPassword, 8)
 
-    console.log(splitedPassword)
+    // console.log(splitedPassword)
 
     await prismaClient.user.update({
       where: { email },
@@ -39,7 +39,7 @@ export default class ResetPasswordController {
 
     const content = `Senha temporária: ${splitedPassword}`
 
-    TicketEmailSender(userName, userEmail, content)
+    ResetEmailSender(userName, userEmail, content)
 
     console.log(user)
 

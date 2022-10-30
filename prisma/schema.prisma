@@ -9,8 +9,8 @@ generator client {
 
 datasource db {
   // provider = "postgresql"
-  // provider = "mysql"
-  provider = "sqlite"
+  provider = "mysql"
+  // provider = "sqlite"
   // url      = env("DATABASE_URL")
   url      = env("DATABASE_URL")
   // shadowDatabaseUrl    = env("SHADOW_DATABASE_URL")
@@ -85,7 +85,7 @@ model Cart {
   code       String   @unique @default(uuid())
   user_id    String
   price      Int
-  items      String
+  items      Json
   status     String   @default("")
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
@@ -127,7 +127,7 @@ model Transaction {
   installments        Int?
   total               Int?
   transactionId       Int?
-  processorResponse   String?
+  processorResponse   Json?
   customerEmail       String?
   customerName        String?
   customerMobile      String?
