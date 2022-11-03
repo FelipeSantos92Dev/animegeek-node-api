@@ -14,6 +14,6 @@ userRouter.use(new ensureAuthenticated().handle)
 
 userRouter.get('/', getUser)
 userRouter.put('/', updateUser)
-userRouter.put('/userpassword', updatePassword)
+userRouter.post('/userpassword', updatePassword)
 
 export { userRouter }

@@ -1,32 +1,38 @@
-import { hash } from 'bcryptjs'
+import { compare, hash } from 'bcryptjs'
 import { Request, Response } from 'express'
 import { prismaClient } from '../../database/prismaClient'
 import AppError from '../../errors/AppError'
 
 export default class UpdateUserPassword {
   async handle(request: Request, response: Response) {
-    const { email, password } = request.body.user
+    const { password, newPassword } = request.body.user
+    const { id } = request.user
 
     const user = await prismaClient.user.findFirst({
       where: {
-        email
+        id
       }
     })
-
-    const encryptedPassword = await hash(password, 8)
 
     if (!user) {
       throw new AppError('Usuário não enconrado!', 404)
-    }
+    } else {
+      const passwordMatch = await compare(password, user.password)
 
-    await prismaClient.user.update({
-      where: {
-        email
-      },
-      data: {
-        password: encryptedPassword
+      if (!passwordMatch) {
+        throw new AppError('Credenciais inválidas!', 401)
       }
-    })
+      const encryptedPassword = await hash(newPassword, 8)
+
+      await prismaClient.user.update({
+        where: {
+          id
+        },
+        data: {
+          password: encryptedPassword
+        }
+      })
+    }
 
     return response.json(user)
   }

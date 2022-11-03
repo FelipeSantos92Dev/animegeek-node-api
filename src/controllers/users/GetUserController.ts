@@ -7,6 +7,13 @@ interface ResponseData {
     id: string
     email?: string | null
     name?: string | null
+    cellphone?: string | null
+    address?: string | null
+    number?: string | null
+    neighborhood?: string | null
+    complement?: string | null
+    city?: string | null
+    state?: string | null
     role?: string | null
     avatar?: string | null
     created_at?: Date | null
@@ -40,6 +47,13 @@ export default class GetUserController {
         id,
         email: user.email,
         name: user.profile?.name,
+        cellphone: user.profile?.cellphone,
+        address: user.profile?.address,
+        number: user.profile?.number,
+        neighborhood: user.profile?.neighborhood,
+        complement: user.profile?.complement,
+        city: user.profile?.city,
+        state: user.profile?.state,
         role: user.role,
         avatar: user.profile?.avatar,
         created_at: user.created_at,
