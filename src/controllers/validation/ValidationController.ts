@@ -21,7 +21,10 @@ export default class ValidationController {
       if (ticket.validations > 0) {
         return response
           .status(200)
-          .json({ message: 'Ingresso Válido Para Sábado Já Utilizado!' })
+          .json({ message: 'Ingresso Vendido Para Sábado Já Autenticado!' })
+        // return response
+        //   .status(200)
+        //   .json({ message: 'Ingresso Válido Para Sábado Já Utilizado!' })
       } else {
         await prismaClient.ticket.update({
           where: {
@@ -33,7 +36,10 @@ export default class ValidationController {
         })
         return response
           .status(200)
-          .json({ message: 'Ingresso Válido Para Sábado!' })
+          .json({ message: 'Ingresso Vendido Para Sábado!' })
+        // return response
+        //   .status(200)
+        //   .json({ message: 'Ingresso Válido Para Sábado!' })
       }
     }
 
@@ -41,7 +47,10 @@ export default class ValidationController {
       if (ticket.validations > 0) {
         return response
           .status(200)
-          .json({ message: 'Ingresso Válido Para Domingo Já Utilizado!' })
+          .json({ message: 'Ingresso Vendido Para Domingo Já Autenticado!' })
+        // return response
+        //   .status(200)
+        //   .json({ message: 'Ingresso Válido Para Domingo Já Utilizado!' })
       } else {
         await prismaClient.ticket.update({
           where: {
@@ -53,7 +62,10 @@ export default class ValidationController {
         })
         return response
           .status(200)
-          .json({ message: 'Ingresso Válido Para Domingo!' })
+          .json({ message: 'Ingresso Vendido Para Domingo!' })
+        // return response
+        //   .status(200)
+        //   .json({ message: 'Ingresso Válido Para Domingo!' })
       }
     }
 
@@ -61,7 +73,10 @@ export default class ValidationController {
       if (ticket.validations > 1) {
         return response
           .status(200)
-          .json({ message: 'Ingresso Combo Já Utilizado!' })
+          .json({ message: 'Ingresso Combo Já Autenticado!' })
+        // return response
+        //   .status(200)
+        //   .json({ message: 'Ingresso Combo Já Utilizado!' })
       } else if (ticket.validations === 0) {
         await prismaClient.ticket.update({
           where: {
@@ -71,9 +86,10 @@ export default class ValidationController {
             validations: 1
           }
         })
-        return response
-          .status(200)
-          .json({ message: 'Ingresso Combo Válido! Leitura #1' })
+        return response.status(200).json({ message: 'Ingresso Combo Vendido' })
+        // return response
+        //   .status(200)
+        //   .json({ message: 'Ingresso Combo Válido! Leitura #1' })
       } else if (ticket.validations === 1) {
         await prismaClient.ticket.update({
           where: {
@@ -83,9 +99,10 @@ export default class ValidationController {
             validations: 2
           }
         })
-        return response
-          .status(200)
-          .json({ message: 'Ingresso Combo Válido! Leitura #2' })
+        return response.status(200).json({ message: 'Ingresso Combo Vendido' })
+        // return response
+        //   .status(200)
+        //   .json({ message: 'Ingresso Combo Válido! Leitura #2' })
       }
     }
 
