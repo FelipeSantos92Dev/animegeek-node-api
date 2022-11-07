@@ -4,10 +4,10 @@ import { hash } from 'bcryptjs'
 const prisma = new PrismaClient()
 
 async function main() {
-  const encryptedPassword = await hash('adminadmin', 8)
+  const encryptedPassword = await hash('@dmin_m3us_T1ckets#', 8)
   await prisma.user.create({
     data: {
-      email: 'admin@admin.com',
+      email: 'admin@meustickets.com',
       password: encryptedPassword,
       role: 'Administrador',
       profile: {
@@ -18,10 +18,10 @@ async function main() {
     }
   })
 
-  const encryptedSellerPassword = await hash('vendedor', 8)
+  const encryptedSellerPassword = await hash('#v3nD_3dor/', 8)
   await prisma.user.create({
     data: {
-      email: 'vendedor@vendedor.com',
+      email: 'vendedor@meustickets.com',
       password: encryptedSellerPassword,
       role: 'Vendedor',
       profile: {
