@@ -28,7 +28,8 @@ export default class PixTickets {
             geekName,
             geekEmail,
             status,
-            type: 'onlinePix',
+            type: 'store',
+            // type: 'onlinePix',
             userId: user.id
           }
         })
@@ -47,11 +48,31 @@ export default class PixTickets {
             geekName,
             geekEmail,
             status,
-            type: 'onlinePix',
+            type: 'store',
+            // type: 'onlinePix',
             userId: user.id
           }
         })
         countTwo = countTwo - 1
+      }
+      return response.status(200).json('Ingresso gerado!')
+    }
+
+    if (valid === 'Combo') {
+      let countThree = quantity
+      while (countThree > 0) {
+        await prismaClient.ticket.create({
+          data: {
+            category_id: 'c73e9ff7-bb6c-43da-b3b0-6e638374312f',
+            geekName,
+            geekEmail,
+            status,
+            type: 'store',
+            // type: 'onlinePix',
+            userId: user.id
+          }
+        })
+        countThree = countThree - 1
       }
       return response.status(200).json('Ingresso gerado!')
     }
