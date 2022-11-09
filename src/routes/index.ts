@@ -14,6 +14,7 @@ import { dashboardRouter } from './dashboard.routes'
 import { validationRouter } from './validation.routes'
 import { emailRouter } from './mail.routes'
 import { passwordRouter } from './password.routes'
+import { userTicketsRouter } from './usertickets.routes'
 
 const router = Router()
 
@@ -31,5 +32,6 @@ router.use('/dashboard', dashboardRouter)
 router.use('/validation', validationRouter)
 router.use('/mail', emailRouter)
 router.use('/restore', passwordRouter)
+router.use('/usertickets', userTicketsRouter)
 
 export { router }
