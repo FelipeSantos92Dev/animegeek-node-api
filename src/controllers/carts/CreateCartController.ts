@@ -4,7 +4,8 @@ import AppError from '../../errors/AppError'
 
 export default class CreateCartController {
   async handle(request: Request, response: Response) {
-    const { cartOne, cartTwo, cartThree, totalCost } = request.body.cart
+    const { cartOne, cartTwo, cartThree, cartFour, cartFive, totalCost } =
+      request.body.cart
     const { id } = request.user
 
     const user = await prismaClient.user.findFirst({
@@ -21,7 +22,7 @@ export default class CreateCartController {
       data: {
         price: totalCost * 100,
         user_id: user.id,
-        items: { cartOne, cartTwo, cartThree }
+        items: { cartOne, cartTwo, cartThree, cartFour, cartFive }
       }
     })
 
@@ -31,7 +32,7 @@ export default class CreateCartController {
       await prismaClient.ticket.create({
         data: {
           cart_id: cart.id,
-          category_id: '1b7045c6-5216-4334-87b8-e7d4cd3b519a',
+          category_id: 'a6ba73ae-39c0-441f-a344-0b550d05601b',
           userId: id,
           type: 'online'
         }
@@ -45,7 +46,7 @@ export default class CreateCartController {
       await prismaClient.ticket.create({
         data: {
           cart_id: cart.id,
-          category_id: '0be4c521-f8eb-4e13-ae61-5bd8b1bb4361',
+          category_id: '1b7045c6-5216-4334-87b8-e7d4cd3b519a',
           userId: id,
           type: 'online'
         }
@@ -59,12 +60,40 @@ export default class CreateCartController {
       await prismaClient.ticket.create({
         data: {
           cart_id: cart.id,
-          category_id: 'c73e9ff7-bb6c-43da-b3b0-6e638374312f',
+          category_id: '22f505c7-6fae-47fc-9325-8efc9f94c3a0',
           userId: id,
           type: 'online'
         }
       })
       countThree = countThree - 1
+    }
+
+    let countFour = cartFour
+
+    while (countFour > 0) {
+      await prismaClient.ticket.create({
+        data: {
+          cart_id: cart.id,
+          category_id: '0be4c521-f8eb-4e13-ae61-5bd8b1bb4361',
+          userId: id,
+          type: 'online'
+        }
+      })
+      countFour = countFour - 1
+    }
+
+    let countFive = cartFive
+
+    while (countFive > 0) {
+      await prismaClient.ticket.create({
+        data: {
+          cart_id: cart.id,
+          category_id: 'c73e9ff7-bb6c-43da-b3b0-6e638374312f',
+          userId: id,
+          type: 'online'
+        }
+      })
+      countFive = countFive - 1
     }
 
     return response.send()

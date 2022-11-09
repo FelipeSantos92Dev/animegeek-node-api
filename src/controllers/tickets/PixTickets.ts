@@ -19,7 +19,27 @@ export default class PixTickets {
       throw new AppError('Usuário não encontrado', 404)
     }
 
-    if (valid === 'Sábado') {
+    if (valid === 'Sábado Estudante') {
+      let countOne = quantity
+      while (countOne > 0) {
+        await prismaClient.ticket.create({
+          data: {
+            category_id: 'a6ba73ae-39c0-441f-a344-0b550d05601b',
+            geekName,
+            geekEmail,
+            status,
+            type: 'store',
+            // type: 'onlinePix',
+            userId: user.id
+          }
+        })
+        countOne = countOne - 1
+      }
+
+      return response.status(200).json('Ingresso gerado!')
+    }
+
+    if (valid === 'Sábado Social') {
       let countOne = quantity
       while (countOne > 0) {
         await prismaClient.ticket.create({
@@ -39,7 +59,26 @@ export default class PixTickets {
       return response.status(200).json('Ingresso gerado!')
     }
 
-    if (valid === 'Domingo') {
+    if (valid === 'Domingo Estudante') {
+      let countTwo = quantity
+      while (countTwo > 0) {
+        await prismaClient.ticket.create({
+          data: {
+            category_id: '22f505c7-6fae-47fc-9325-8efc9f94c3a0',
+            geekName,
+            geekEmail,
+            status,
+            type: 'store',
+            // type: 'onlinePix',
+            userId: user.id
+          }
+        })
+        countTwo = countTwo - 1
+      }
+      return response.status(200).json('Ingresso gerado!')
+    }
+
+    if (valid === 'Domingo Social') {
       let countTwo = quantity
       while (countTwo > 0) {
         await prismaClient.ticket.create({
