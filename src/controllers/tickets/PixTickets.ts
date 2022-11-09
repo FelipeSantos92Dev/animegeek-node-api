@@ -28,8 +28,8 @@ export default class PixTickets {
             geekName,
             geekEmail,
             status,
-            type: 'store',
-            // type: 'onlinePix',
+            // type: 'store',
+            type: 'onlinePix',
             userId: user.id
           }
         })
@@ -48,8 +48,8 @@ export default class PixTickets {
             geekName,
             geekEmail,
             status,
-            type: 'store',
-            // type: 'onlinePix',
+            // type: 'store',
+            type: 'onlinePix',
             userId: user.id
           }
         })
@@ -68,8 +68,8 @@ export default class PixTickets {
             geekName,
             geekEmail,
             status,
-            type: 'store',
-            // type: 'onlinePix',
+            // type: 'store',
+            type: 'onlinePix',
             userId: user.id
           }
         })
@@ -87,8 +87,8 @@ export default class PixTickets {
             geekName,
             geekEmail,
             status,
-            type: 'store',
-            // type: 'onlinePix',
+            // type: 'store',
+            type: 'onlinePix',
             userId: user.id
           }
         })
@@ -106,8 +106,8 @@ export default class PixTickets {
             geekName,
             geekEmail,
             status,
-            type: 'store',
-            // type: 'onlinePix',
+            // type: 'store',
+            type: 'onlinePix',
             userId: user.id
           }
         })

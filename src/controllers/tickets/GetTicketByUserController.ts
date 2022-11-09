@@ -7,9 +7,21 @@ export default class GetTicketByUserController {
 
     const tickets = await prismaClient.ticket.findMany({
       where: {
-        userId: id,
-        type: 'online'
+        OR: [
+          {
+            userId: id,
+            type: 'online'
+          },
+          {
+            userId: id,
+            type: 'store'
+          }
+        ]
       },
+      // where: {
+      //   userId: id,
+      //   type: 'online'
+      // },
       orderBy: {
         category_id: 'asc'
       }
