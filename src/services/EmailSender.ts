@@ -11,8 +11,6 @@ const transporter = nodemailer.createTransport(
   })
 )
 
-const pathToAttachment = `${__dirname}/attachment.pdf`
-
 // const attachment = fs.readFileSync(pathToAttachment).toString('base64')
 
 export default class EmailSender {
@@ -28,18 +26,7 @@ export default class EmailSender {
         to: senderMail,
         subject: `Nova mensagem de contato - ${name}`,
         html: `<p><b>Email: </b>${senderMail}<br /><b>Mensagem: </b>Teste</p>`,
-        replyTo: email,
-        attachments: [
-          {
-            path: pathToAttachment
-          }
-          // {
-          //   content: attachment,
-          //   filename: 'attachment.pdf',
-          //   type: 'application/pdf',
-          //   disposition: 'attachment'
-          // }
-        ]
+        replyTo: email
       }
 
       await transporter.sendMail(message, (err, info) => {
