@@ -32,6 +32,14 @@ export default class GetUserTicketsByAdminController {
           }
         ]
       },
+      select: {
+        id: true,
+        category: {
+          select: {
+            name: true
+          }
+        }
+      },
       // where: {
       //   userId: id,
       //   type: 'online'

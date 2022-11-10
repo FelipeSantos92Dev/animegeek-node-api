@@ -3,7 +3,14 @@ import { prismaClient } from '../../database/prismaClient'
 
 export default class DashboardController {
   async handle(request: Request, response: Response) {
-    const totalSabCredit = await prismaClient.ticket.count({
+    const totalSabEstCredit = await prismaClient.ticket.count({
+      where: {
+        category_id: '1b7045c6-5216-4334-87b8-e7d4cd3b519a',
+        status: 'approved',
+        type: 'online'
+      }
+    })
+    const totalSabSocCredit = await prismaClient.ticket.count({
       where: {
         category_id: '1b7045c6-5216-4334-87b8-e7d4cd3b519a',
         status: 'approved',
@@ -11,7 +18,14 @@ export default class DashboardController {
       }
     })
 
-    const totalDomCredit = await prismaClient.ticket.count({
+    const totalDomEstCredit = await prismaClient.ticket.count({
+      where: {
+        category_id: '0be4c521-f8eb-4e13-ae61-5bd8b1bb4361',
+        status: 'approved',
+        type: 'online'
+      }
+    })
+    const totalDomSocCredit = await prismaClient.ticket.count({
       where: {
         category_id: '0be4c521-f8eb-4e13-ae61-5bd8b1bb4361',
         status: 'approved',
@@ -27,7 +41,14 @@ export default class DashboardController {
       }
     })
 
-    const totalSabPix = await prismaClient.ticket.count({
+    const totalSabEstPix = await prismaClient.ticket.count({
+      where: {
+        category_id: '1b7045c6-5216-4334-87b8-e7d4cd3b519a',
+        status: 'approved',
+        type: 'onlinePix'
+      }
+    })
+    const totalSabSocPix = await prismaClient.ticket.count({
       where: {
         category_id: '1b7045c6-5216-4334-87b8-e7d4cd3b519a',
         status: 'approved',
@@ -35,7 +56,14 @@ export default class DashboardController {
       }
     })
 
-    const totalDomPix = await prismaClient.ticket.count({
+    const totalDomEstPix = await prismaClient.ticket.count({
+      where: {
+        category_id: '0be4c521-f8eb-4e13-ae61-5bd8b1bb4361',
+        status: 'approved',
+        type: 'onlinePix'
+      }
+    })
+    const totalDomSocPix = await prismaClient.ticket.count({
       where: {
         category_id: '0be4c521-f8eb-4e13-ae61-5bd8b1bb4361',
         status: 'approved',
@@ -65,13 +93,17 @@ export default class DashboardController {
 
     const totalPresent = totalPresentSingle + totalPresentCombo
 
-    const totalSab = totalSabCredit + totalSabPix
-    const totalDom = totalDomCredit + totalDomPix
+    const totalSabEst = totalSabEstCredit + totalSabEstPix
+    const totalSabSoc = totalSabSocCredit + totalSabSocPix
+    const totalDomEst = totalDomEstCredit + totalDomEstPix
+    const totalDomSoc = totalDomSocCredit + totalDomSocPix
     const totalCombo = totalComboCredit + totalComboPix
 
     return response.json({
-      totalSab,
-      totalDom,
+      totalSabEst,
+      totalSabSoc,
+      totalDomEst,
+      totalDomSoc,
       totalCombo,
       totalPresent
     })
