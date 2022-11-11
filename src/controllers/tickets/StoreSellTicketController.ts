@@ -28,6 +28,10 @@ export default class StoreSellTicketController {
       throw new AppError('Ingresso não encontrado', 404)
     }
 
+    if (ticket.selled === 1) {
+      throw new AppError('Ingresso já validado', 404)
+    }
+
     await prismaClient.ticket.update({
       where: {
         id: uuid
