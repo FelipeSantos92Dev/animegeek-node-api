@@ -10,6 +10,6 @@ const ticketSelled = new StoreSellTicketController().handle
 const protectedRoutes = new ensureAuthenticated().handle
 const adminRole = new ensureAccessByRole().handle
 
-ticketSelledRouter.get('/', protectedRoutes, adminRole, ticketSelled)
+ticketSelledRouter.post('/', protectedRoutes, adminRole, ticketSelled)
 
 export { ticketSelledRouter }

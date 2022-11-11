@@ -5,6 +5,8 @@ import AppError from '../../errors/AppError'
 export default class StoreSellTicketController {
   async handle(request: Request, response: Response) {
     const { uuid } = request.body.ticket
+    console.log(uuid)
+
     const { id } = request.user
 
     const user = await prismaClient.user.findFirst({
