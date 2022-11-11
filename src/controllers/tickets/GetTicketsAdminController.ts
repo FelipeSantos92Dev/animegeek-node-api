@@ -27,7 +27,7 @@ export default class GetTicketsAdminController {
         }
       },
       orderBy: {
-        category_id: 'asc'
+        created_at: 'desc'
       }
     })
 

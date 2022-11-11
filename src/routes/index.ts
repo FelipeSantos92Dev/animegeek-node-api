@@ -16,6 +16,7 @@ import { emailRouter } from './mail.routes'
 import { passwordRouter } from './password.routes'
 import { userTicketsRouter } from './usertickets.routes'
 import { adminTicketsRouter } from './admintickets.routes'
+import { ticketSelledRouter } from './sellertickets.routes'
 
 const router = Router()
 
@@ -35,5 +36,6 @@ router.use('/mail', emailRouter)
 router.use('/restore', passwordRouter)
 router.use('/usertickets', userTicketsRouter)
 router.use('/admintickets', adminTicketsRouter)
+router.use('/selledtickets', ticketSelledRouter)
 
 export { router }

@@ -102,10 +102,11 @@ model Ticket {
   cart_id     String?
   category_id String?
   userId      String
-  geekName    String   @default("Geek")
-  geekEmail   String   @default("geek@geek.com")
+  geekName    String?  @default("Geek")
+  geekEmail   String?  @default("geek@geek.com")
   status      String   @default("")
   validations Int      @default(0)
+  selled      Int?     @default(0)
   type        String
   created_at  DateTime @default(now())
   updated_at  DateTime @updatedAt

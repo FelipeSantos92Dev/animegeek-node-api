@@ -79,6 +79,27 @@ export default class DashboardController {
       }
     })
 
+    const totalSortidaoSelled = await prismaClient.ticket.count({
+      where: {
+        geekEmail: 'sortidao@animegeekoficial.com.br',
+        selled: 1
+      }
+    })
+
+    const totalSmartSelled = await prismaClient.ticket.count({
+      where: {
+        geekEmail: 'smartgeek@animegeekoficial.com.br',
+        selled: 1
+      }
+    })
+
+    const totalKawaiiSelled = await prismaClient.ticket.count({
+      where: {
+        geekEmail: 'kawaiiclub@animegeekoficial.com.br',
+        selled: 1
+      }
+    })
+
     const totalPresentSingle = await prismaClient.ticket.count({
       where: {
         validations: 1
@@ -105,7 +126,10 @@ export default class DashboardController {
       totalDomEst,
       totalDomSoc,
       totalCombo,
-      totalPresent
+      totalPresent,
+      totalSortidaoSelled,
+      totalSmartSelled,
+      totalKawaiiSelled
     })
   }
 }

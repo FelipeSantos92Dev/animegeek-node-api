@@ -11,6 +11,13 @@ export default class CreateCartController {
     const user = await prismaClient.user.findFirst({
       where: {
         id
+      },
+      include: {
+        profile: {
+          select: {
+            name: true
+          }
+        }
       }
     })
 
@@ -34,6 +41,8 @@ export default class CreateCartController {
           cart_id: cart.id,
           category_id: 'a6ba73ae-39c0-441f-a344-0b550d05601b',
           userId: id,
+          geekEmail: user.email,
+          geekName: user.profile?.name,
           type: 'online'
         }
       })
@@ -48,6 +57,8 @@ export default class CreateCartController {
           cart_id: cart.id,
           category_id: '1b7045c6-5216-4334-87b8-e7d4cd3b519a',
           userId: id,
+          geekEmail: user.email,
+          geekName: user.profile?.name,
           type: 'online'
         }
       })
@@ -62,6 +73,8 @@ export default class CreateCartController {
           cart_id: cart.id,
           category_id: '22f505c7-6fae-47fc-9325-8efc9f94c3a0',
           userId: id,
+          geekEmail: user.email,
+          geekName: user.profile?.name,
           type: 'online'
         }
       })
@@ -76,6 +89,8 @@ export default class CreateCartController {
           cart_id: cart.id,
           category_id: '0be4c521-f8eb-4e13-ae61-5bd8b1bb4361',
           userId: id,
+          geekEmail: user.email,
+          geekName: user.profile?.name,
           type: 'online'
         }
       })
@@ -90,6 +105,8 @@ export default class CreateCartController {
           cart_id: cart.id,
           category_id: 'c73e9ff7-bb6c-43da-b3b0-6e638374312f',
           userId: id,
+          geekEmail: user.email,
+          geekName: user.profile?.name,
           type: 'online'
         }
       })
