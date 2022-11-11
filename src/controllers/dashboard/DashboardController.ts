@@ -120,6 +120,20 @@ export default class DashboardController {
     const totalDomSoc = totalDomSocCredit + totalDomSocPix
     const totalCombo = totalComboCredit + totalComboPix
 
+    const totalCredit =
+      totalSabEstCredit +
+      totalSabSocCredit +
+      totalDomEstCredit +
+      totalDomSocCredit +
+      totalComboCredit
+
+    const totalPix =
+      totalSabEstPix +
+      totalSabSocPix +
+      totalDomEstPix +
+      totalDomSocPix +
+      totalComboPix
+
     return response.json({
       totalSabEst,
       totalSabSoc,
@@ -129,7 +143,9 @@ export default class DashboardController {
       totalPresent,
       totalSortidaoSelled,
       totalSmartSelled,
-      totalKawaiiSelled
+      totalKawaiiSelled,
+      totalCredit,
+      totalPix
     })
   }
 }
