@@ -117,7 +117,7 @@ class TransactionService {
       //   const senderMail = 'felipe.santos.92@hotmail.com'
       //   await sendEmail(name, senderMail)
       // }
-      const content = 'Ingresso adquirido com sucesso!'
+      const content = 'Compra realizada com sucesso!'
       TicketEmailSender(customer.name, customer.email, content)
     }
 

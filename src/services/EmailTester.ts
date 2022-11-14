@@ -11,7 +11,7 @@ const transporter = nodemailer.createTransport(
   })
 )
 
-export default async function WelcomeEmailTester(
+export default async function EmailTester(
   name: string | null | undefined,
   emailSender: string | null | undefined,
   content: string | null | undefined
@@ -23,7 +23,7 @@ export default async function WelcomeEmailTester(
     const message = {
       from: email,
       to: emailSender,
-      subject: 'Bem vindo(a) ao AnimeGeek 10 Anos!',
+      subject: `Nova mensagem de contato - ${name}`,
       html: `<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
       <html
         data-editor-version="2"
