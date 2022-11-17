@@ -158,6 +158,47 @@ export default class ValidationController {
       }
     }
 
+    if (ticket.category_id === '73cbc22e-cfd4-493e-a914-dc237f1eb909') {
+      if (ticket.validations > 1) {
+        return response
+          .status(200)
+          .json({ message: 'Ingresso Cortesia Já Autenticado!' })
+        // return response
+        //   .status(200)
+        //   .json({ message: 'Ingresso Combo Já Utilizado!' })
+      } else if (ticket.validations === 0) {
+        await prismaClient.ticket.update({
+          where: {
+            id: qrcodeId
+          },
+          data: {
+            validations: 1
+          }
+        })
+        return response
+          .status(200)
+          .json({ message: 'Ingresso Cortesia Liberado' })
+        // return response
+        //   .status(200)
+        //   .json({ message: 'Ingresso Combo Válido! Leitura #1' })
+      } else if (ticket.validations === 1) {
+        await prismaClient.ticket.update({
+          where: {
+            id: qrcodeId
+          },
+          data: {
+            validations: 2
+          }
+        })
+        return response
+          .status(200)
+          .json({ message: 'Ingresso Cortesia Liberado' })
+        // return response
+        //   .status(200)
+        //   .json({ message: 'Ingresso Combo Válido! Leitura #2' })
+      }
+    }
+
     // return response.status(200).json({ ticket })
   }
 }

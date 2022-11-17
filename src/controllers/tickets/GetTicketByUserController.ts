@@ -15,6 +15,10 @@ export default class GetTicketByUserController {
           {
             userId: id,
             type: 'store'
+          },
+          {
+            userId: id,
+            type: 'cortesia'
           }
         ]
       },
