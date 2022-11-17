@@ -40,8 +40,8 @@ export default class PixTickets {
     }
 
     if (valid === 'Sábado Social') {
-      let countOne = quantity
-      while (countOne > 0) {
+      let countTwo = quantity
+      while (countTwo > 0) {
         await prismaClient.ticket.create({
           data: {
             category_id: '1b7045c6-5216-4334-87b8-e7d4cd3b519a',
@@ -53,15 +53,15 @@ export default class PixTickets {
             userId: user.id
           }
         })
-        countOne = countOne - 1
+        countTwo = countTwo - 1
       }
 
       return response.status(200).json('Ingresso gerado!')
     }
 
     if (valid === 'Domingo Estudante') {
-      let countTwo = quantity
-      while (countTwo > 0) {
+      let countThree = quantity
+      while (countThree > 0) {
         await prismaClient.ticket.create({
           data: {
             category_id: '22f505c7-6fae-47fc-9325-8efc9f94c3a0',
@@ -73,14 +73,14 @@ export default class PixTickets {
             userId: user.id
           }
         })
-        countTwo = countTwo - 1
+        countThree = countThree - 1
       }
       return response.status(200).json('Ingresso gerado!')
     }
 
     if (valid === 'Domingo Social') {
-      let countTwo = quantity
-      while (countTwo > 0) {
+      let countFour = quantity
+      while (countFour > 0) {
         await prismaClient.ticket.create({
           data: {
             category_id: '0be4c521-f8eb-4e13-ae61-5bd8b1bb4361',
@@ -92,14 +92,14 @@ export default class PixTickets {
             userId: user.id
           }
         })
-        countTwo = countTwo - 1
+        countFour = countFour - 1
       }
       return response.status(200).json('Ingresso gerado!')
     }
 
     if (valid === 'Combo') {
-      let countThree = quantity
-      while (countThree > 0) {
+      let countFive = quantity
+      while (countFive > 0) {
         await prismaClient.ticket.create({
           data: {
             category_id: 'c73e9ff7-bb6c-43da-b3b0-6e638374312f',
@@ -111,7 +111,26 @@ export default class PixTickets {
             userId: user.id
           }
         })
-        countThree = countThree - 1
+        countFive = countFive - 1
+      }
+      return response.status(200).json('Ingresso gerado!')
+    }
+
+    if (valid === 'Cortesia') {
+      let countSix = quantity
+      while (countSix > 0) {
+        await prismaClient.ticket.create({
+          data: {
+            category_id: '73cbc22e-cfd4-493e-a914-dc237f1eb909',
+            geekName,
+            geekEmail,
+            status,
+            // type: 'store',
+            type: 'cortesia',
+            userId: user.id
+          }
+        })
+        countSix = countSix - 1
       }
       return response.status(200).json('Ingresso gerado!')
     }

@@ -79,6 +79,14 @@ export default class DashboardController {
       }
     })
 
+    const totalCortesia = await prismaClient.ticket.count({
+      where: {
+        category_id: '73cbc22e-cfd4-493e-a914-dc237f1eb909',
+        status: 'approved',
+        type: 'cortesia'
+      }
+    })
+
     const totalSortidaoSelled = await prismaClient.ticket.count({
       where: {
         geekEmail: 'sortidao@animegeekoficial.com.br',
@@ -140,6 +148,7 @@ export default class DashboardController {
       totalDomEst,
       totalDomSoc,
       totalCombo,
+      totalCortesia,
       totalPresent,
       totalSortidaoSelled,
       totalSmartSelled,
