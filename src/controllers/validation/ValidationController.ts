@@ -172,7 +172,7 @@ export default class ValidationController {
             id: qrcodeId
           },
           data: {
-            validations: 1
+            selled: 1
           }
         })
         return response
@@ -187,7 +187,7 @@ export default class ValidationController {
             id: qrcodeId
           },
           data: {
-            validations: 2
+            selled: 2
           }
         })
         return response
