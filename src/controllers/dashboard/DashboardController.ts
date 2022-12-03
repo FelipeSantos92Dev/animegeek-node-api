@@ -79,7 +79,7 @@ export default class DashboardController {
       }
     })
 
-    const totalCortesia = await prismaClient.ticket.count({
+    const totalCortesiaCombo = await prismaClient.ticket.count({
       where: {
         category_id: '73cbc22e-cfd4-493e-a914-dc237f1eb909',
         status: 'approved',
@@ -148,7 +148,7 @@ export default class DashboardController {
       totalDomEst,
       totalDomSoc,
       totalCombo,
-      totalCortesia,
+      totalCortesiaCombo,
       totalPresent,
       totalSortidaoSelled,
       totalSmartSelled,

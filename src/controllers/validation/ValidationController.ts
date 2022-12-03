@@ -158,11 +158,63 @@ export default class ValidationController {
       }
     }
 
+    if (ticket.category_id === 'e0c908a2-2635-4d89-8d92-4cd1e99b8016') {
+      if (ticket.validations > 0) {
+        return response.status(200).json({
+          message: 'Ingresso Cortesia Sábado Já Autenticado!'
+        })
+        // return response
+        //   .status(200)
+        //   .json({ message: 'Ingresso Válido Para Domingo Já Utilizado!' })
+      } else {
+        await prismaClient.ticket.update({
+          where: {
+            id: qrcodeId
+          },
+          data: {
+            validations: 1
+          }
+        })
+        return response
+          .status(200)
+          .json({ message: 'Ingresso Cortesia Sábado Liberado' })
+        // return response
+        //   .status(200)
+        //   .json({ message: 'Ingresso Válido Para Domingo!' })
+      }
+    }
+
+    if (ticket.category_id === 'eeb47ea9-4d51-4d12-8634-c4c6f2539b6f') {
+      if (ticket.validations > 0) {
+        return response.status(200).json({
+          message: 'Ingresso Cortesia Domingo Já Autenticado!'
+        })
+        // return response
+        //   .status(200)
+        //   .json({ message: 'Ingresso Válido Para Domingo Já Utilizado!' })
+      } else {
+        await prismaClient.ticket.update({
+          where: {
+            id: qrcodeId
+          },
+          data: {
+            validations: 1
+          }
+        })
+        return response
+          .status(200)
+          .json({ message: 'Ingresso Cortesia Domingo Liberado' })
+        // return response
+        //   .status(200)
+        //   .json({ message: 'Ingresso Válido Para Domingo!' })
+      }
+    }
+
     if (ticket.category_id === '73cbc22e-cfd4-493e-a914-dc237f1eb909') {
       if (ticket.validations > 1) {
         return response
           .status(200)
-          .json({ message: 'Ingresso Cortesia Já Autenticado!' })
+          .json({ message: 'Ingresso Cortesia Combo Já Autenticado!' })
         // return response
         //   .status(200)
         //   .json({ message: 'Ingresso Combo Já Utilizado!' })
@@ -177,7 +229,7 @@ export default class ValidationController {
         })
         return response
           .status(200)
-          .json({ message: 'Ingresso Cortesia Liberado' })
+          .json({ message: 'Ingresso Cortesia Combo Liberado' })
         // return response
         //   .status(200)
         //   .json({ message: 'Ingresso Combo Válido! Leitura #1' })
@@ -192,7 +244,7 @@ export default class ValidationController {
         })
         return response
           .status(200)
-          .json({ message: 'Ingresso Cortesia Liberado' })
+          .json({ message: 'Ingresso Cortesia Combo Liberado' })
         // return response
         //   .status(200)
         //   .json({ message: 'Ingresso Combo Válido! Leitura #2' })

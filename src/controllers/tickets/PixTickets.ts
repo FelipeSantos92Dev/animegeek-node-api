@@ -116,7 +116,7 @@ export default class PixTickets {
       return response.status(200).json('Ingresso gerado!')
     }
 
-    if (valid === 'Cortesia') {
+    if (valid === 'Cortesia Combo') {
       let countSix = quantity
       while (countSix > 0) {
         await prismaClient.ticket.create({
@@ -131,6 +131,44 @@ export default class PixTickets {
           }
         })
         countSix = countSix - 1
+      }
+      return response.status(200).json('Ingresso gerado!')
+    }
+
+    if (valid === 'Cortesia Sábado') {
+      let countSeven = quantity
+      while (countSeven > 0) {
+        await prismaClient.ticket.create({
+          data: {
+            category_id: 'e0c908a2-2635-4d89-8d92-4cd1e99b8016',
+            geekName,
+            geekEmail,
+            status,
+            // type: 'store',
+            type: 'cortesia',
+            userId: user.id
+          }
+        })
+        countSeven = countSeven - 1
+      }
+      return response.status(200).json('Ingresso gerado!')
+    }
+
+    if (valid === 'Cortesia Domingo') {
+      let countEight = quantity
+      while (countEight > 0) {
+        await prismaClient.ticket.create({
+          data: {
+            category_id: 'eeb47ea9-4d51-4d12-8634-c4c6f2539b6f',
+            geekName,
+            geekEmail,
+            status,
+            // type: 'store',
+            type: 'cortesia',
+            userId: user.id
+          }
+        })
+        countEight = countEight - 1
       }
       return response.status(200).json('Ingresso gerado!')
     }
