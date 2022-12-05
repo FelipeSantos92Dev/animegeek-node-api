@@ -108,13 +108,41 @@ export default class DashboardController {
       }
     })
 
-    const totalPresentSingle = await prismaClient.ticket.count({
+    const totalSabEstPresent = await prismaClient.ticket.count({
+      where: {
+        validations: 1,
+        category_id: 'a6ba73ae-39c0-441f-a344-0b550d05601b'
+      }
+    })
+
+    const totalSabSocPresent = await prismaClient.ticket.count({
+      where: {
+        validations: 1,
+        category_id: '1b7045c6-5216-4334-87b8-e7d4cd3b519a'
+      }
+    })
+
+    const totalDomEstPresent = await prismaClient.ticket.count({
+      where: {
+        validations: 1,
+        category_id: '22f505c7-6fae-47fc-9325-8efc9f94c3a0'
+      }
+    })
+
+    const totalDomSocPresent = await prismaClient.ticket.count({
+      where: {
+        validations: 1,
+        category_id: '0be4c521-f8eb-4e13-ae61-5bd8b1bb4361'
+      }
+    })
+
+    const totalPresentComboSab = await prismaClient.ticket.count({
       where: {
         validations: 1
       }
     })
 
-    const totalPresentCombo = await prismaClient.ticket.count({
+    const totalPresentComboDom = await prismaClient.ticket.count({
       where: {
         validations: 2
       }
@@ -134,7 +162,17 @@ export default class DashboardController {
       }
     })
 
-    const totalPresent = totalPresentSingle + totalPresentCombo
+    const totalSabPresent =
+      totalSabEstPresent +
+      totalSabSocPresent +
+      cortesiaSabPresent +
+      totalPresentComboSab
+
+    const totalDomPresent =
+      totalDomEstPresent +
+      totalDomSocPresent +
+      cortesiaDomPresent +
+      totalPresentComboDom
 
     const totalSabEst = totalSabEstCredit + totalSabEstPix
     const totalSabSoc = totalSabSocCredit + totalSabSocPix
@@ -163,7 +201,14 @@ export default class DashboardController {
       totalDomSoc,
       totalCombo,
       totalCortesiaCombo,
-      totalPresent,
+      totalSabPresent,
+      totalSabEstPresent,
+      totalSabSocPresent,
+      totalDomPresent,
+      totalDomEstPresent,
+      totalDomSocPresent,
+      totalPresentComboSab,
+      totalPresentComboDom,
       totalSortidaoSelled,
       totalSmartSelled,
       totalKawaiiSelled,
