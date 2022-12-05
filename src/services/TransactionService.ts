@@ -3,6 +3,7 @@ import { prismaClient } from '../database/prismaClient'
 import AppError from '../errors/AppError'
 import PagarMeProvider from '../providers/PagarMeProvider'
 import TicketEmailSender from './TicketEmailSender'
+import TicketEmailSenderAdmin from './TicketEmailSenderAdmin'
 
 type CustomerData = {
   name: string
@@ -119,6 +120,7 @@ class TransactionService {
       // }
       const content = 'Compra realizada com sucesso!'
       TicketEmailSender(customer.name, customer.email, content)
+      TicketEmailSenderAdmin(customer.name, customer.email, content)
     }
 
     const cartStatus = await prismaClient.cart.update({
