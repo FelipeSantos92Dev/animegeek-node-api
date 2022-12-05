@@ -120,6 +120,20 @@ export default class DashboardController {
       }
     })
 
+    const cortesiaSabPresent = await prismaClient.ticket.count({
+      where: {
+        validations: 1,
+        category_id: 'e0c908a2-2635-4d89-8d92-4cd1e99b8016'
+      }
+    })
+
+    const cortesiaDomPresent = await prismaClient.ticket.count({
+      where: {
+        validations: 1,
+        category_id: 'eeb47ea9-4d51-4d12-8634-c4c6f2539b6f'
+      }
+    })
+
     const totalPresent = totalPresentSingle + totalPresentCombo
 
     const totalSabEst = totalSabEstCredit + totalSabEstPix
@@ -154,7 +168,9 @@ export default class DashboardController {
       totalSmartSelled,
       totalKawaiiSelled,
       totalCredit,
-      totalPix
+      totalPix,
+      cortesiaSabPresent,
+      cortesiaDomPresent
     })
   }
 }
