@@ -138,7 +138,8 @@ export default class DashboardController {
 
     const totalPresentComboSab = await prismaClient.ticket.count({
       where: {
-        validations: 1
+        validations: 1,
+        category_id: 'c73e9ff7-bb6c-43da-b3b0-6e638374312f'
       }
     })
 
