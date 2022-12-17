@@ -163,6 +163,39 @@ export default class DashboardController {
       }
     })
 
+    const eventdaySabEst = await prismaClient.ticket.count({
+      where: {
+        geekName: 'venda_entrada',
+        category_id: 'a6ba73ae-39c0-441f-a344-0b550d05601b'
+      }
+    })
+
+    const eventdaySabSoc = await prismaClient.ticket.count({
+      where: {
+        geekName: 'venda_entrada',
+        category_id: '1b7045c6-5216-4334-87b8-e7d4cd3b519a'
+      }
+    })
+
+    const eventdaySabInt = await prismaClient.ticket.count({
+      where: {
+        geekName: 'venda_entrada',
+        category_id: '3a71bd91-11bb-4a35-97aa-afd5482cb8bd'
+      }
+    })
+
+    const totalLaser = await prismaClient.ticket.count({
+      where: {
+        category_id: '3393b90e-1849-470b-910a-ed3f3581f18e'
+      }
+    })
+
+    const totalSaber = await prismaClient.ticket.count({
+      where: {
+        category_id: 'c2617c0a-4b9b-4c4e-9ea0-a7d281f3de11'
+      }
+    })
+
     const totalSabPresent =
       totalSabEstPresent +
       totalSabSocPresent +
@@ -216,7 +249,12 @@ export default class DashboardController {
       totalCredit,
       totalPix,
       cortesiaSabPresent,
-      cortesiaDomPresent
+      cortesiaDomPresent,
+      eventdaySabEst,
+      eventdaySabSoc,
+      eventdaySabInt,
+      totalLaser,
+      totalSaber
     })
   }
 }
