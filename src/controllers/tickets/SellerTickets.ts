@@ -24,7 +24,7 @@ export default class SellerTickets {
       await prismaClient.ticket.create({
         data: {
           id: uuid,
-          category_id: '3393b90e-1849-470b-910a-ed3f3581f18e', // Sábado Estudante
+          category_id: '19a6d4bf-7ddb-4c7d-94a6-fbf3923d6ee7', // Sábado Estudante
           geekName: 'LaserTag',
           geekEmail,
           validations,
@@ -40,7 +40,7 @@ export default class SellerTickets {
       await prismaClient.ticket.create({
         data: {
           id: uuid,
-          category_id: 'c2617c0a-4b9b-4c4e-9ea0-a7d281f3de11', // Sábado Estudante
+          category_id: '8e76ca6c-0d9f-4f37-a1c7-1225ffd6bfbc', // Sábado Estudante
           geekName: 'BeatSaber',
           geekEmail,
           validations,
@@ -56,7 +56,7 @@ export default class SellerTickets {
       await prismaClient.ticket.create({
         data: {
           id: uuid,
-          category_id: 'a6ba73ae-39c0-441f-a344-0b550d05601b', // Sábado Estudante
+          category_id: '22f505c7-6fae-47fc-9325-8efc9f94c3a0', // Domingo Estudante
           geekName,
           geekEmail,
           validations,
@@ -72,7 +72,7 @@ export default class SellerTickets {
       await prismaClient.ticket.create({
         data: {
           id: uuid,
-          category_id: '1b7045c6-5216-4334-87b8-e7d4cd3b519a', // Sábado Social
+          category_id: '0be4c521-f8eb-4e13-ae61-5bd8b1bb4361', // Domingo Social
           geekName,
           geekEmail,
           validations,
@@ -88,7 +88,7 @@ export default class SellerTickets {
       await prismaClient.ticket.create({
         data: {
           id: uuid,
-          category_id: '3a71bd91-11bb-4a35-97aa-afd5482cb8bd', // Sábado Social
+          category_id: '7490cc3c-c198-4f32-88a3-21e2661b6c0f', // Sábado Social
           geekName,
           geekEmail,
           validations,

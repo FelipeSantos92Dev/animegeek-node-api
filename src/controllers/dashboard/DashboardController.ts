@@ -184,6 +184,27 @@ export default class DashboardController {
       }
     })
 
+    const eventdayDomEst = await prismaClient.ticket.count({
+      where: {
+        geekName: 'venda_entrada',
+        category_id: '22f505c7-6fae-47fc-9325-8efc9f94c3a0'
+      }
+    })
+
+    const eventdayDomSoc = await prismaClient.ticket.count({
+      where: {
+        geekName: 'venda_entrada',
+        category_id: '0be4c521-f8eb-4e13-ae61-5bd8b1bb4361'
+      }
+    })
+
+    const eventdayDomInt = await prismaClient.ticket.count({
+      where: {
+        geekName: 'venda_entrada',
+        category_id: '7490cc3c-c198-4f32-88a3-21e2661b6c0f'
+      }
+    })
+
     const totalLaser = await prismaClient.ticket.count({
       where: {
         category_id: '3393b90e-1849-470b-910a-ed3f3581f18e'
@@ -193,6 +214,18 @@ export default class DashboardController {
     const totalSaber = await prismaClient.ticket.count({
       where: {
         category_id: 'c2617c0a-4b9b-4c4e-9ea0-a7d281f3de11'
+      }
+    })
+
+    const totalLaserDom = await prismaClient.ticket.count({
+      where: {
+        category_id: '19a6d4bf-7ddb-4c7d-94a6-fbf3923d6ee7'
+      }
+    })
+
+    const totalSaberDom = await prismaClient.ticket.count({
+      where: {
+        category_id: '8e76ca6c-0d9f-4f37-a1c7-1225ffd6bfbc'
       }
     })
 
@@ -254,7 +287,12 @@ export default class DashboardController {
       eventdaySabSoc,
       eventdaySabInt,
       totalLaser,
-      totalSaber
+      totalSaber,
+      totalLaserDom,
+      totalSaberDom,
+      eventdayDomEst,
+      eventdayDomSoc,
+      eventdayDomInt
     })
   }
 }

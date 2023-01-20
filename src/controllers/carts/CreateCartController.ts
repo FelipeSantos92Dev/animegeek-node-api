@@ -71,7 +71,7 @@ export default class CreateCartController {
       await prismaClient.ticket.create({
         data: {
           cart_id: cart.id,
-          category_id: '22f505c7-6fae-47fc-9325-8efc9f94c3a0',
+          category_id: 'a6ba73ae-39c0-441f-a344-0b550d05601b',
           userId: id,
           geekEmail: user.email,
           geekName: user.profile?.name,
