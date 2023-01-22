@@ -202,6 +202,30 @@ export default class ValidationController {
       }
     }
 
+    if (ticket.category_id === '89f0f8da-bc89-441a-b51e-32ffd092a3cb') {
+      if (ticket.validations > 0) {
+        // return response.status(200).json({
+        //   message: 'Ingresso Cortesia Domingo Já Autenticado!'
+        // })
+        return response
+          .status(200)
+          .json({ message: 'Ingresso Carna Já Utilizado!' })
+      } else {
+        await prismaClient.ticket.update({
+          where: {
+            id: qrcodeId
+          },
+          data: {
+            validations: 1
+          }
+        })
+        // return response
+        //   .status(200)
+        //   .json({ message: 'Ingresso Cortesia Domingo Liberado' })
+        return response.status(200).json({ message: 'Ingresso Carna Válido' })
+      }
+    }
+
     if (ticket.category_id === '73cbc22e-cfd4-493e-a914-dc237f1eb909') {
       if (ticket.validations > 1) {
         return response

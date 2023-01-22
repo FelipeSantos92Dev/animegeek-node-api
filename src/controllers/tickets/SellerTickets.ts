@@ -100,6 +100,22 @@ export default class SellerTickets {
       return response.status(200).json('Ingresso gerado!')
     }
 
+    if (cost === 'carna') {
+      await prismaClient.ticket.create({
+        data: {
+          id: uuid,
+          category_id: '89f0f8da-bc89-441a-b51e-32ffd092a3cb', // Sábado Social
+          geekName,
+          geekEmail,
+          validations,
+          type,
+          status,
+          userId: id
+        }
+      })
+      return response.status(200).json('Ingresso gerado!')
+    }
+
     await prismaClient.ticket.create({
       data: {
         id: uuid,

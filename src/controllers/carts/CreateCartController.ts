@@ -4,8 +4,15 @@ import AppError from '../../errors/AppError'
 
 export default class CreateCartController {
   async handle(request: Request, response: Response) {
-    const { cartOne, cartTwo, cartThree, cartFour, cartFive, totalCost } =
-      request.body.cart
+    const {
+      cartOne,
+      cartTwo,
+      cartThree,
+      cartFour,
+      cartFive,
+      carna,
+      totalCost
+    } = request.body.cart
     const { id } = request.user
 
     const user = await prismaClient.user.findFirst({
@@ -29,7 +36,7 @@ export default class CreateCartController {
       data: {
         price: totalCost * 100,
         user_id: user.id,
-        items: { cartOne, cartTwo, cartThree, cartFour, cartFive }
+        items: { cartOne, cartTwo, cartThree, cartFour, cartFive, carna }
       }
     })
 
@@ -111,6 +118,22 @@ export default class CreateCartController {
         }
       })
       countFive = countFive - 1
+    }
+
+    let countCarna = carna
+
+    while (countCarna > 0) {
+      await prismaClient.ticket.create({
+        data: {
+          cart_id: cart.id,
+          category_id: '89f0f8da-bc89-441a-b51e-32ffd092a3cb',
+          userId: id,
+          geekEmail: user.email,
+          geekName: user.profile?.name,
+          type: 'online'
+        }
+      })
+      countCarna = countCarna - 1
     }
 
     return response.send()

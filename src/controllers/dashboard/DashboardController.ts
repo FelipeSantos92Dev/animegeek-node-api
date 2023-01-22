@@ -41,6 +41,14 @@ export default class DashboardController {
       }
     })
 
+    const totalCarnaCredit = await prismaClient.ticket.count({
+      where: {
+        category_id: '89f0f8da-bc89-441a-b51e-32ffd092a3cb',
+        status: 'approved',
+        type: 'online'
+      }
+    })
+
     const totalSabEstPix = await prismaClient.ticket.count({
       where: {
         category_id: 'a6ba73ae-39c0-441f-a344-0b550d05601b',
@@ -74,6 +82,14 @@ export default class DashboardController {
     const totalComboPix = await prismaClient.ticket.count({
       where: {
         category_id: 'c73e9ff7-bb6c-43da-b3b0-6e638374312f',
+        status: 'approved',
+        type: 'onlinePix'
+      }
+    })
+
+    const totalCarnaPix = await prismaClient.ticket.count({
+      where: {
+        category_id: '89f0f8da-bc89-441a-b51e-32ffd092a3cb',
         status: 'approved',
         type: 'onlinePix'
       }
@@ -163,6 +179,13 @@ export default class DashboardController {
       }
     })
 
+    const totalCarnaPresent = await prismaClient.ticket.count({
+      where: {
+        validations: 1,
+        category_id: '89f0f8da-bc89-441a-b51e-32ffd092a3cb'
+      }
+    })
+
     const eventdaySabEst = await prismaClient.ticket.count({
       where: {
         geekName: 'venda_entrada',
@@ -202,6 +225,13 @@ export default class DashboardController {
       where: {
         geekName: 'venda_entrada',
         category_id: '7490cc3c-c198-4f32-88a3-21e2661b6c0f'
+      }
+    })
+
+    const eventdayCarna = await prismaClient.ticket.count({
+      where: {
+        geekName: 'venda_entrada',
+        category_id: '89f0f8da-bc89-441a-b51e-32ffd092a3cb'
       }
     })
 
@@ -292,7 +322,11 @@ export default class DashboardController {
       totalSaberDom,
       eventdayDomEst,
       eventdayDomSoc,
-      eventdayDomInt
+      eventdayDomInt,
+      totalCarnaCredit,
+      totalCarnaPix,
+      totalCarnaPresent,
+      eventdayCarna
     })
   }
 }

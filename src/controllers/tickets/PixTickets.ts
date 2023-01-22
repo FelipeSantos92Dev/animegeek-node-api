@@ -172,5 +172,24 @@ export default class PixTickets {
       }
       return response.status(200).json('Ingresso gerado!')
     }
+
+    if (valid === 'Carna') {
+      let countNine = quantity
+      while (countNine > 0) {
+        await prismaClient.ticket.create({
+          data: {
+            category_id: '89f0f8da-bc89-441a-b51e-32ffd092a3cb',
+            geekName,
+            geekEmail,
+            status,
+            // type: 'store',
+            type: 'onlinePix',
+            userId: user.id
+          }
+        })
+        countNine = countNine - 1
+      }
+      return response.status(200).json('Ingresso gerado!')
+    }
   }
 }
