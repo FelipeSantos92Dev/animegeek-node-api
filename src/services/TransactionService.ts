@@ -111,7 +111,7 @@ class TransactionService {
       }
     })
 
-    if (transactionStatus.status === 'approved') {
+    /* if (transactionStatus.status === 'approved') {
       // async function handleSendEmail(event: FormEvent) {
       //   event.preventDefault()
       //   const name = 'Felipe Santos'
@@ -121,7 +121,7 @@ class TransactionService {
       const content = 'Compra realizada com sucesso!'
       TicketEmailSender(customer.name, customer.email, content)
       TicketEmailSenderAdmin(customer.name, customer.email, content)
-    }
+    } */
 
     const cartStatus = await prismaClient.cart.update({
       where: {

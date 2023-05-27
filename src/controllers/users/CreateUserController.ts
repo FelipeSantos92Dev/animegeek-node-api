@@ -35,8 +35,8 @@ export default class CreateUserController {
           }
         })
 
-        const content = 'Bem vindo(a) à Plataforma AnimeGeek!'
-        WelcomeEmailSender(name, email, content)
+        //const content = 'Bem vindo(a) à Plataforma AnimeGeek!'
+        //WelcomeEmailSender(name, email, content)
         response.status(201).json({ message: 'Usuário(a) cadastrado(a)!' })
       } catch (error) {
         throw new AppError(error.message, 400)
